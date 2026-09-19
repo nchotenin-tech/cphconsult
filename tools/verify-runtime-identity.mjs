@@ -2,6 +2,7 @@ import pg from 'pg';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { withActorTransaction } from '../dist/actor-transaction.js';
+import { assertRuntimeDenied } from './runtime-denial-check.mjs';
 
 let pool;
 let stage = 'local_target';
@@ -68,11 +69,11 @@ try {
   });
   await check('context_cleared_after_rollback', noContext);
   await check('credential_table_denied', async () => {
-    await assert.rejects(pool.query('SELECT password_hash FROM app.auth_credentials LIMIT 0'), error => error.code === '42501');
+    await assertRuntimeDenied(pool, actorA, 'SELECT password_hash FROM app.auth_credentials LIMIT 0');
   });
   await check('account_write_denied', async () => {
     // WHERE false ensures this probe never changes a row even if grants regress.
-    await assert.rejects(pool.query("UPDATE app.app_users SET status = 'active' WHERE false"), error => error.code === '42501');
+    await assertRuntimeDenied(pool, actorA, "UPDATE app.app_users SET status = 'active' WHERE false");
   });
   await check('connection_remains_usable_and_unscoped', noContext);
   console.log(`runtime_identity_checks_passed: ${passed}/9`);

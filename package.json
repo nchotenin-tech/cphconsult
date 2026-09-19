@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --test server/test/platform.test.mjs server/test/actor-transaction.test.mjs",
+    "test": "npm run build && node --test server/test/platform.test.mjs server/test/actor-transaction.test.mjs server/test/pool-denial.test.mjs",
     "start": "node dist/main.js",
     "dev": "tsx server/src/main.ts"
   },
