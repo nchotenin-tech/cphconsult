@@ -4,7 +4,7 @@
 
 ## Status
 
-Phase 0: repository setup and source inventory. No runnable replacement application yet.
+Phase 0 review continues; an initial Express/TypeScript platform slice now serves health probes. No clinical replacement application yet. See `docs/BACKEND.md` for local run commands and validation limits.
 Provisional stack from the handoff: React/Vite, Express/TypeScript, PostgreSQL, Socket.IO.
 Frontend redesign and server specifications remain to be confirmed.
 

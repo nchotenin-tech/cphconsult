@@ -10,6 +10,9 @@
 - Draft entity mapping covers all 26 discovered table names; column evidence contains 197 source locations, not a complete effective schema.
 - Preliminary permission matrix records critical clinical boundaries and unresolved combined-trigger review.
 - Docker CLI is installed but its Linux engine is unavailable; PostgreSQL runtime/RLS tests have not run.
+- Initial Express/TypeScript platform implemented with liveness, dependency diagnostics, deliberately false application readiness and bounded connection pool/shutdown.
+- TypeScript build and 5 local HTTP/configuration tests passed on Node 20.19.5. Dependency installation audit reported zero known vulnerabilities at installation time; this is not a security certification.
+- `docs/openapi.yaml` covers implemented probes only; authentication/clinical contracts and the effective source schema review remain unfinished.
 
 ## Phase 0 remaining
 
