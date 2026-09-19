@@ -16,6 +16,20 @@ Build/start: `npm run build`, then `npm start`. SIGINT/SIGTERM stop accepting re
 
 ## Implemented endpoints
 
+### Connect the local development database on Windows
+
+After the pgAdmin foundation setup and runtime login test, open PowerShell in the project and run:
+
+```powershell
+.\tools\start-local.ps1
+```
+
+Enter the runtime account password only in the masked local prompt. The launcher builds first, targets only 127.0.0.1:5432/cphconsult_dev as cphconsult_dev_runtime, runs read-only identity/permission checks, then starts the API on loopback port 3100. It does not write the password to a file or pass it on the command line. The connection string exists in process memory/environment while running; this is not a secret vault. Ctrl+C stops the process and restores previous environment variables. No execution-policy change is included; if Windows blocks the script, report that error rather than disabling system protections.
+
+Expected terminal result: `local_database_preflight_passed`, then `api_listening`. Visit http://127.0.0.1:3100/health/database and expect `{"status":"available"}`. Application readiness intentionally remains 503. This preflight verifies basic permissions, not clinical RLS. Never use a postgres administrator connection for the API.
+
+The user has confirmed the pgAdmin runtime login and initial permission results. The launcher has not yet been exercised with their private credentials; live backend database verification remains pending.
+
 | Endpoint | Contract |
 |---|---|
 | GET /health/live | 200: process is serving requests |
