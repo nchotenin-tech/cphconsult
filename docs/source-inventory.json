@@ -1,0 +1,1472 @@
+{
+  "revision": "56ba8b18ff58bfa5c58dc0b9ca555f993049298c",
+  "scope": "Git SQL source only; not live catalog or effective policy inventory",
+  "migrationCount": 57,
+  "duplicateVersionPrefixes": [
+    {
+      "version": "202607220001",
+      "paths": [
+        "supabase/migrations/202607220001_admin_case_message_crud.sql",
+        "supabase/migrations/202607220001_private_registration_identifiers.sql"
+      ]
+    }
+  ],
+  "declaredTables": [
+    "public.active_app_sessions",
+    "public.active_consult_sessions",
+    "public.announcements",
+    "public.app_audit_log",
+    "public.consult_case_number_counters",
+    "public.consult_invitations",
+    "public.consults",
+    "public.dentist_private_profiles",
+    "public.dentists",
+    "public.hospitals",
+    "public.line_group_settings_version",
+    "public.line_rate_limits",
+    "public.messages",
+    "public.moph_alert_deliveries",
+    "public.notifications",
+    "public.push_chat_presence",
+    "public.push_deliveries",
+    "public.push_preferences",
+    "public.push_reply_events",
+    "public.push_subscriptions",
+    "public.refer_service_locations",
+    "public.shared_care_audit_log",
+    "public.specialty_group_ids",
+    "public.support_messages",
+    "public.support_tickets",
+    "public.workflow_layouts"
+  ],
+  "files": [
+    {
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "sha256": "297b62a2d859e5228bfce5c39489db97ac70032f3bd1dbb696670321ee4683d3",
+      "declarations": [
+        {
+          "kind": "table",
+          "name": "public.hospitals",
+          "line": 6
+        },
+        {
+          "kind": "table",
+          "name": "public.dentists",
+          "line": 12
+        },
+        {
+          "kind": "table",
+          "name": "public.specialty_group_ids",
+          "line": 28
+        },
+        {
+          "kind": "table",
+          "name": "public.consults",
+          "line": 38
+        },
+        {
+          "kind": "table",
+          "name": "public.messages",
+          "line": 62
+        },
+        {
+          "kind": "table",
+          "name": "public.announcements",
+          "line": 72
+        },
+        {
+          "kind": "table",
+          "name": "public.notifications",
+          "line": 83
+        },
+        {
+          "kind": "table",
+          "name": "public.line_rate_limits",
+          "line": 93
+        },
+        {
+          "kind": "table",
+          "name": "public.app_audit_log",
+          "line": 100
+        },
+        {
+          "kind": "table",
+          "name": "public.line_group_settings_version",
+          "line": 110
+        },
+        {
+          "kind": "function",
+          "name": "public.jwt_dentist_id",
+          "line": 118
+        },
+        {
+          "kind": "function",
+          "name": "public.current_dentist_id",
+          "line": 122
+        },
+        {
+          "kind": "function",
+          "name": "public.is_admin",
+          "line": 131
+        },
+        {
+          "kind": "function",
+          "name": "public.can_access_consult",
+          "line": 142
+        },
+        {
+          "kind": "function",
+          "name": "public.consume_line_rate_limit",
+          "line": 163
+        },
+        {
+          "kind": "function",
+          "name": "public.save_line_group_mappings",
+          "line": 182
+        },
+        {
+          "kind": "function",
+          "name": "public.write_app_audit_log",
+          "line": 213
+        },
+        {
+          "kind": "function",
+          "name": "public.handle_new_auth_user",
+          "line": 224
+        },
+        {
+          "kind": "trigger",
+          "name": "on_auth_user_created_create_dentist",
+          "line": 247
+        },
+        {
+          "kind": "trigger",
+          "name": "audit_consults",
+          "line": 266
+        },
+        {
+          "kind": "trigger",
+          "name": "audit_messages",
+          "line": 268
+        },
+        {
+          "kind": "trigger",
+          "name": "audit_line_groups",
+          "line": 270
+        },
+        {
+          "kind": "policy",
+          "name": "hospitals_read_public_signup",
+          "line": 284
+        },
+        {
+          "kind": "policy",
+          "name": "hospitals_admin_write",
+          "line": 286
+        },
+        {
+          "kind": "policy",
+          "name": "dentists_read_authenticated",
+          "line": 288
+        },
+        {
+          "kind": "policy",
+          "name": "dentists_update_self_or_admin",
+          "line": 290
+        },
+        {
+          "kind": "policy",
+          "name": "dentists_insert_admin",
+          "line": 293
+        },
+        {
+          "kind": "policy",
+          "name": "dentists_delete_admin",
+          "line": 296
+        },
+        {
+          "kind": "policy",
+          "name": "consults_read_participants",
+          "line": 299
+        },
+        {
+          "kind": "policy",
+          "name": "consults_insert_sender",
+          "line": 301
+        },
+        {
+          "kind": "policy",
+          "name": "consults_update_participants",
+          "line": 303
+        },
+        {
+          "kind": "policy",
+          "name": "consults_delete_failed_image_upload",
+          "line": 306
+        },
+        {
+          "kind": "policy",
+          "name": "messages_read_participants",
+          "line": 314
+        },
+        {
+          "kind": "policy",
+          "name": "messages_insert_participants",
+          "line": 316
+        },
+        {
+          "kind": "policy",
+          "name": "notifications_owner_read",
+          "line": 319
+        },
+        {
+          "kind": "policy",
+          "name": "notifications_owner_update",
+          "line": 321
+        },
+        {
+          "kind": "policy",
+          "name": "notifications_participant_insert",
+          "line": 324
+        },
+        {
+          "kind": "policy",
+          "name": "announcements_read_authenticated",
+          "line": 326
+        },
+        {
+          "kind": "policy",
+          "name": "announcements_admin_write",
+          "line": 328
+        },
+        {
+          "kind": "policy",
+          "name": "line_groups_read_authenticated",
+          "line": 330
+        },
+        {
+          "kind": "policy",
+          "name": "line_groups_admin_write",
+          "line": 332
+        },
+        {
+          "kind": "policy",
+          "name": "line_settings_version_read",
+          "line": 334
+        },
+        {
+          "kind": "policy",
+          "name": "audit_admin_read",
+          "line": 336
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607110001_security_hardening.sql",
+      "sha256": "022025c40255cd1d7e2de5fd483998318c6f1bc7ede2b84a59859960eee673fd",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.jwt_dentist_id",
+          "line": 23
+        },
+        {
+          "kind": "function",
+          "name": "public.current_dentist_id",
+          "line": 33
+        },
+        {
+          "kind": "function",
+          "name": "public.is_admin",
+          "line": 48
+        },
+        {
+          "kind": "policy",
+          "name": "hospitals_read_authenticated",
+          "line": 79
+        },
+        {
+          "kind": "policy",
+          "name": "hospitals_admin_write",
+          "line": 81
+        },
+        {
+          "kind": "policy",
+          "name": "dentists_read_authenticated",
+          "line": 84
+        },
+        {
+          "kind": "policy",
+          "name": "dentists_update_self_or_admin",
+          "line": 86
+        },
+        {
+          "kind": "policy",
+          "name": "dentists_insert_self_or_admin",
+          "line": 90
+        },
+        {
+          "kind": "policy",
+          "name": "consults_read_participants",
+          "line": 94
+        },
+        {
+          "kind": "policy",
+          "name": "consults_insert_sender",
+          "line": 100
+        },
+        {
+          "kind": "policy",
+          "name": "consults_update_participants",
+          "line": 103
+        },
+        {
+          "kind": "policy",
+          "name": "messages_read_case_participants",
+          "line": 109
+        },
+        {
+          "kind": "policy",
+          "name": "messages_insert_case_participants",
+          "line": 113
+        },
+        {
+          "kind": "policy",
+          "name": "notifications_owner",
+          "line": 119
+        },
+        {
+          "kind": "policy",
+          "name": "notifications_owner_update",
+          "line": 122
+        },
+        {
+          "kind": "policy",
+          "name": "notifications_case_participant_insert",
+          "line": 126
+        },
+        {
+          "kind": "policy",
+          "name": "announcements_read_authenticated",
+          "line": 131
+        },
+        {
+          "kind": "policy",
+          "name": "announcements_admin_write",
+          "line": 133
+        },
+        {
+          "kind": "policy",
+          "name": "line_groups_read_authenticated",
+          "line": 137
+        },
+        {
+          "kind": "policy",
+          "name": "line_groups_admin_write",
+          "line": 139
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "sha256": "cd07c1194070cec6442a66046bbe500e9ab1b758c63a0db1d3dd2e7246de23d6",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.is_admin",
+          "line": 16
+        },
+        {
+          "kind": "table",
+          "name": "public.line_rate_limits",
+          "line": 34
+        },
+        {
+          "kind": "function",
+          "name": "public.consume_line_rate_limit",
+          "line": 44
+        },
+        {
+          "kind": "table",
+          "name": "public.app_audit_log",
+          "line": 91
+        },
+        {
+          "kind": "policy",
+          "name": "app_audit_log_admin_read",
+          "line": 105
+        },
+        {
+          "kind": "function",
+          "name": "public.write_app_audit_log",
+          "line": 108
+        },
+        {
+          "kind": "trigger",
+          "name": "audit_consults",
+          "line": 127
+        },
+        {
+          "kind": "trigger",
+          "name": "audit_messages",
+          "line": 130
+        },
+        {
+          "kind": "trigger",
+          "name": "audit_line_groups",
+          "line": 133
+        },
+        {
+          "kind": "table",
+          "name": "public.line_group_settings_version",
+          "line": 136
+        },
+        {
+          "kind": "policy",
+          "name": "line_group_settings_version_read",
+          "line": 149
+        },
+        {
+          "kind": "function",
+          "name": "public.save_line_group_mappings",
+          "line": 152
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607120002_public_signup_hospitals.sql",
+      "sha256": "9feca849b6aca0fb1c73aa4b478851d80b7b0a45d645e84b018c84481f093fc8",
+      "declarations": [
+        {
+          "kind": "policy",
+          "name": "hospitals_read_public_signup",
+          "line": 7
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607120003_auth_user_dentist_profile.sql",
+      "sha256": "6575a5f94c3261dda12a35a4dd918f169923f53a0bb3b02276fefed9c9dcf02c",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.handle_new_auth_user",
+          "line": 4
+        },
+        {
+          "kind": "trigger",
+          "name": "on_auth_user_created_create_dentist",
+          "line": 58
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607130001_private_media_storage.sql",
+      "sha256": "06038d652dda3c690329a1d3148d03eb3cb10dfe07ea6d1ef92bae3d6b954ebf",
+      "declarations": [
+        {
+          "kind": "policy",
+          "name": "case_files_read_participants",
+          "line": 15
+        },
+        {
+          "kind": "policy",
+          "name": "case_files_insert_sender",
+          "line": 19
+        },
+        {
+          "kind": "policy",
+          "name": "case_files_delete_sender_or_admin",
+          "line": 30
+        },
+        {
+          "kind": "policy",
+          "name": "announcement_files_read_authenticated",
+          "line": 41
+        },
+        {
+          "kind": "policy",
+          "name": "announcement_files_admin_write",
+          "line": 45
+        },
+        {
+          "kind": "policy",
+          "name": "dentist_avatars_read_authenticated",
+          "line": 50
+        },
+        {
+          "kind": "policy",
+          "name": "dentist_avatars_owner_write",
+          "line": 54
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607130002_dentist_admin_write_policies.sql",
+      "sha256": "bb9bbdb1d7f5a41cacd04b98d6c549c174d8ba4c27cd241353e8aa5457255800",
+      "declarations": [
+        {
+          "kind": "policy",
+          "name": "dentists_insert_admin",
+          "line": 4
+        },
+        {
+          "kind": "policy",
+          "name": "dentists_delete_admin",
+          "line": 11
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607140001_consult_image_limits.sql",
+      "sha256": "3edc39c3f7bc9d8563659b386183c0a08d70645d5ddcf7e1a7a284998d36c202",
+      "declarations": [
+        {
+          "kind": "policy",
+          "name": "consult_images_read_participants",
+          "line": 23
+        },
+        {
+          "kind": "policy",
+          "name": "consult_images_insert_sender",
+          "line": 30
+        },
+        {
+          "kind": "policy",
+          "name": "consult_images_delete_sender_or_admin",
+          "line": 42
+        },
+        {
+          "kind": "policy",
+          "name": "consults_delete_failed_image_upload",
+          "line": 59
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607170001_push_notifications.sql",
+      "sha256": "8d3efe63d2130b1c84bc7dd9d394f3d4eeba06b27b897f7897cb16c8e8320a29",
+      "declarations": [
+        {
+          "kind": "table",
+          "name": "public.push_subscriptions",
+          "line": 3
+        },
+        {
+          "kind": "table",
+          "name": "public.push_reply_events",
+          "line": 15
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607180001_cleanup_push_reply_events.sql",
+      "sha256": "5816746fe2534690be664004239eb369f429d181047bedf3c14fe997b4c35043",
+      "declarations": []
+    },
+    {
+      "path": "supabase/migrations/202607180002_push_chat_presence.sql",
+      "sha256": "00926b0e0ea43cf8a454f770596b1c1203433a744225af2b26fcafc68137e210",
+      "declarations": [
+        {
+          "kind": "table",
+          "name": "public.push_chat_presence",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "sha256": "a8c83658a7d793832240446c46293a324cf36e093481e84c82e0ccae7d2229ce",
+      "declarations": [
+        {
+          "kind": "table",
+          "name": "public.push_preferences",
+          "line": 3
+        },
+        {
+          "kind": "function",
+          "name": "public.sync_push_subscription_owner",
+          "line": 20
+        },
+        {
+          "kind": "trigger",
+          "name": "sync_push_subscription_owner",
+          "line": 40
+        },
+        {
+          "kind": "table",
+          "name": "public.active_consult_sessions",
+          "line": 46
+        },
+        {
+          "kind": "table",
+          "name": "public.push_deliveries",
+          "line": 56
+        },
+        {
+          "kind": "policy",
+          "name": "push_preferences_owner_read",
+          "line": 72
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607210001_chat_notification_routing.sql",
+      "sha256": "5c88bf73bb4fa0a558b1dfc1d2f2bd6450e6fb99d78076d77a90bacd184c5dcb",
+      "declarations": [
+        {
+          "kind": "table",
+          "name": "public.active_app_sessions",
+          "line": 6
+        },
+        {
+          "kind": "function",
+          "name": "public.cleanup_push_runtime_state",
+          "line": 20
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607220001_admin_case_message_crud.sql",
+      "sha256": "8f10593753fc87e6f18da8473acaf935cdd52332b533bd1f384a94d7cf9f824e",
+      "declarations": [
+        {
+          "kind": "policy",
+          "name": "consults_insert_sender",
+          "line": 4
+        },
+        {
+          "kind": "policy",
+          "name": "consults_delete_admin",
+          "line": 8
+        },
+        {
+          "kind": "policy",
+          "name": "messages_update_admin",
+          "line": 12
+        },
+        {
+          "kind": "policy",
+          "name": "messages_delete_admin",
+          "line": 16
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607220001_private_registration_identifiers.sql",
+      "sha256": "f46649d6269956cb0f3e1bee131c79c371c95bf7d994fdbfa0e253fcd701cdac",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.is_valid_thai_citizen_id",
+          "line": 3
+        },
+        {
+          "kind": "table",
+          "name": "public.dentist_private_profiles",
+          "line": 28
+        },
+        {
+          "kind": "policy",
+          "name": "dentist_private_profiles_read_self",
+          "line": 41
+        },
+        {
+          "kind": "policy",
+          "name": "dentist_private_profiles_admin_all",
+          "line": 46
+        },
+        {
+          "kind": "function",
+          "name": "public.handle_new_auth_user",
+          "line": 51
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607240001_message_read_receipts.sql",
+      "sha256": "0d7c13726ac9d1a50dc4d8551db6303150ca21596a4b06bd628acfe51301fcc0",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.mark_consult_messages_read",
+          "line": 9
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607250001_optional_moph_citizen_id.sql",
+      "sha256": "e0cb59c59faf80e9d45e5db6fdcc8b9955c9f4f2ff80d0c1533ff72d0dfbfc32",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.handle_new_auth_user",
+          "line": 6
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607250002_public_registration_specialties.sql",
+      "sha256": "7b7dc0e7d08630e69020f1d9fe8feda91d3a1f9a12a6785ccb963d13a2af3f4e",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.list_registration_specialties",
+          "line": 4
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607260001_consult_notification_mode.sql",
+      "sha256": "3d4aaf40d41f0e7a57ae86d9acbee21d9c60f24705bfac0d4b2f2969e89bc945",
+      "declarations": []
+    },
+    {
+      "path": "supabase/migrations/202607260002_self_update_moph_citizen_id.sql",
+      "sha256": "585dd0524ccef5ea1f66b15d4cb3ced9b0741209bd9a686a36cab02d7ba7aee2",
+      "declarations": [
+        {
+          "kind": "policy",
+          "name": "dentist_private_profiles_update_self",
+          "line": 6
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607260003_fix_signup_private_profile_conflict.sql",
+      "sha256": "18eb429823400f89b69f069e370bc418c0ee617aeb8dd86810f71271f5737fc2",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.handle_new_auth_user",
+          "line": 4
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607280001_create_missing_private_profile.sql",
+      "sha256": "6af299ba962a33036f05a0897977392febef61cef96765ff6bcadb9ffe653edb",
+      "declarations": [
+        {
+          "kind": "policy",
+          "name": "dentist_private_profiles_insert_self",
+          "line": 10
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607280002_grant_citizen_id_validation.sql",
+      "sha256": "30d2a79290b4477d2951a8c33811c4d1383537431b3aa7519b5de14e965359fb",
+      "declarations": []
+    },
+    {
+      "path": "supabase/migrations/202607280003_moph_conversation_alerts.sql",
+      "sha256": "cb4ae45c5414a94605f6d9ac905b637aeadbc520c67955db30cf28c4152e8a38",
+      "declarations": [
+        {
+          "kind": "table",
+          "name": "public.moph_alert_deliveries",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202607290001_grant_moph_profile_read.sql",
+      "sha256": "c044d068d787fe233b03134cae467f0c99902bb4bfeb2daff81148a3f277699b",
+      "declarations": []
+    },
+    {
+      "path": "supabase/migrations/202608020001_post_consult_refer_workflow.sql",
+      "sha256": "79304e804dd03b90c0f5978368c137142edb2157a514e1400c332c75c1ec2356",
+      "declarations": [
+        {
+          "kind": "table",
+          "name": "public.refer_service_locations",
+          "line": 17
+        },
+        {
+          "kind": "policy",
+          "name": "refer_locations_read_authenticated",
+          "line": 31
+        },
+        {
+          "kind": "policy",
+          "name": "refer_locations_hospital_insert",
+          "line": 33
+        },
+        {
+          "kind": "policy",
+          "name": "refer_locations_hospital_update",
+          "line": 36
+        },
+        {
+          "kind": "policy",
+          "name": "refer_locations_hospital_delete",
+          "line": 40
+        },
+        {
+          "kind": "trigger",
+          "name": "audit_refer_service_locations",
+          "line": 44
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608020002_shared_care_and_consult_invites.sql",
+      "sha256": "209615e953ebe1e8c8bf5eac93b69a3c21962aef8a3b38b48d102193603d8d0a",
+      "declarations": [
+        {
+          "kind": "table",
+          "name": "public.consult_invitations",
+          "line": 14
+        },
+        {
+          "kind": "policy",
+          "name": "consult_invitations_read_related",
+          "line": 29
+        },
+        {
+          "kind": "policy",
+          "name": "consult_invitations_primary_insert",
+          "line": 33
+        },
+        {
+          "kind": "policy",
+          "name": "consult_invitations_primary_update",
+          "line": 37
+        },
+        {
+          "kind": "policy",
+          "name": "consults_read_participants",
+          "line": 42
+        },
+        {
+          "kind": "function",
+          "name": "public.respond_consult_invitation",
+          "line": 48
+        },
+        {
+          "kind": "function",
+          "name": "public.protect_invited_consult_updates",
+          "line": 62
+        },
+        {
+          "kind": "trigger",
+          "name": "protect_invited_consult_updates",
+          "line": 74
+        },
+        {
+          "kind": "trigger",
+          "name": "audit_consult_invitations",
+          "line": 80
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608080002_specialty_case_visibility.sql",
+      "sha256": "9cba0531fb13b1c35d984fb79b558c73269afd578d181598b1624fc79cd645e3",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.can_access_consult",
+          "line": 3
+        },
+        {
+          "kind": "policy",
+          "name": "consults_read_participants",
+          "line": 24
+        },
+        {
+          "kind": "policy",
+          "name": "messages_read_participants",
+          "line": 28
+        },
+        {
+          "kind": "policy",
+          "name": "messages_insert_participants",
+          "line": 32
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608090001_refer_workflow_cards.sql",
+      "sha256": "72f07c19aa2bc1d2ec6bfabd3ab648d1aa3da8219356028c26274c06a4653566",
+      "declarations": [
+        {
+          "kind": "policy",
+          "name": "messages_update_own_workflow",
+          "line": 23
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608090002_refer_cancellation_cards.sql",
+      "sha256": "d306c77bdbcf0c75ae7a15723c9e0131eb6246b9abdcc1b7f9a76bb30c207d00",
+      "declarations": [
+        {
+          "kind": "policy",
+          "name": "messages_update_own_workflow",
+          "line": 11
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608100001_workflow_layouts.sql",
+      "sha256": "1bef997d35d5a1c4d8baf03b37c34d677d8b31c182d3bdf3dd7d8b2897f14fd5",
+      "declarations": [
+        {
+          "kind": "table",
+          "name": "public.workflow_layouts",
+          "line": 1
+        },
+        {
+          "kind": "policy",
+          "name": "workflow_layouts_read_authenticated",
+          "line": 11
+        },
+        {
+          "kind": "policy",
+          "name": "workflow_layouts_insert_admin",
+          "line": 16
+        },
+        {
+          "kind": "policy",
+          "name": "workflow_layouts_update_admin",
+          "line": 21
+        },
+        {
+          "kind": "function",
+          "name": "public.set_workflow_layout_updated_at",
+          "line": 27
+        },
+        {
+          "kind": "trigger",
+          "name": "workflow_layouts_set_updated_at",
+          "line": 36
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608110001_short_case_numbers.sql",
+      "sha256": "90f694912d919b76bc5bc64c26c696e90e6179557de4b52478e3a34f4b3c1acc",
+      "declarations": [
+        {
+          "kind": "table",
+          "name": "public.consult_case_number_counters",
+          "line": 9
+        },
+        {
+          "kind": "function",
+          "name": "public.assign_consult_case_number",
+          "line": 49
+        },
+        {
+          "kind": "trigger",
+          "name": "assign_consult_case_number",
+          "line": 78
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608120001_surgery_summary_cards.sql",
+      "sha256": "7d2747f136eed20c3a674cc2e1b6a4c1cf3524ede0094057da15d19c7b481179",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.enforce_surgery_summary_author",
+          "line": 11
+        },
+        {
+          "kind": "trigger",
+          "name": "enforce_surgery_summary_author",
+          "line": 33
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608120002_allow_admin_surgery_summary.sql",
+      "sha256": "e61cf2aa723e6c76503b13ee08236d088e68374a79997c62fc5c30bfb669ede5",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.enforce_surgery_summary_author",
+          "line": 3
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608120003_rename_surgery_summary_categories.sql",
+      "sha256": "6cb8f5f141342a198a4bffd50d45846fcd5549b8cf42e4bf048bc0745629f886",
+      "declarations": []
+    },
+    {
+      "path": "supabase/migrations/202608120004_regional_network_analytics.sql",
+      "sha256": "342e562dc41c4c5c992cdefe54c2480935c41d92c28ba3550b3a8404a96007de",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.get_network_dashboard_analytics",
+          "line": 3
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608130001_atomic_refer_finalization.sql",
+      "sha256": "10a83daacaca33ad2771c60b4a18d39cfedb4a4ebb23724021898afe7993c050",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.finalize_refer_workflow",
+          "line": 2
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608130002_enforce_refer_workflow_permissions.sql",
+      "sha256": "1342b624173eb59de0575f8a2296c2e5857370727687b1e25a207a89683f6991",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.can_manage_refer_workflow",
+          "line": 4
+        },
+        {
+          "kind": "function",
+          "name": "public.is_refer_finalizer_context",
+          "line": 28
+        },
+        {
+          "kind": "function",
+          "name": "public.enforce_refer_consult_update",
+          "line": 33
+        },
+        {
+          "kind": "trigger",
+          "name": "enforce_refer_consult_update",
+          "line": 72
+        },
+        {
+          "kind": "function",
+          "name": "public.enforce_refer_workflow_message",
+          "line": 75
+        },
+        {
+          "kind": "trigger",
+          "name": "enforce_refer_workflow_message",
+          "line": 99
+        },
+        {
+          "kind": "function",
+          "name": "public.finalize_refer_workflow",
+          "line": 104
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608130003_atomic_refer_appointment.sql",
+      "sha256": "2beee6a7538954dd9cdc54a0fff2e2d0a74c34382298238c54c58d5255f72511",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.confirm_refer_appointment",
+          "line": 3
+        },
+        {
+          "kind": "function",
+          "name": "public.enforce_refer_consult_update",
+          "line": 63
+        },
+        {
+          "kind": "function",
+          "name": "public.enforce_refer_workflow_message",
+          "line": 101
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608180001_align_consult_recipient_permissions.sql",
+      "sha256": "832f1e9002dcb2779942c24936dc256d11ce9c73dbeb4c17260ad2ab92375461",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.is_consult_target_recipient",
+          "line": 5
+        },
+        {
+          "kind": "policy",
+          "name": "consults_update_participants",
+          "line": 34
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608180002_activate_consult_on_recipient_reply.sql",
+      "sha256": "1b2458a46278bc52d2e7a91c470219d8e0ef7853945c103ed49b15d3c9cef6bf",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.activate_consult_on_recipient_reply",
+          "line": 5
+        },
+        {
+          "kind": "trigger",
+          "name": "activate_consult_on_recipient_reply",
+          "line": 54
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608180003_complete_non_refer_consult_atomically.sql",
+      "sha256": "fe9093ff7422c5619a263c57dc859509161e9a4829363c8da2eca263a8017ff3",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.complete_non_refer_consult_on_outcome",
+          "line": 4
+        },
+        {
+          "kind": "trigger",
+          "name": "complete_non_refer_consult_on_outcome",
+          "line": 20
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608180004_allow_non_refer_consult_reopen.sql",
+      "sha256": "1bdc7a395794967f486473c92fabb3f27eb02b1944183b2e03bd9633d8ad0822",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.enforce_refer_consult_update",
+          "line": 4
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608180005_preserve_refer_step_timestamps.sql",
+      "sha256": "c11a6a511ec5abbf69980be040242a76c30d0c7ea53708e86a532c44d7c4af6a",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.confirm_refer_appointment",
+          "line": 4
+        },
+        {
+          "kind": "function",
+          "name": "public.finalize_refer_workflow",
+          "line": 35
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608190001_support_tickets.sql",
+      "sha256": "41894e39750fc5ab5c1c3293a1a1be39fd2b9d8a8ef07ef4b242f62eddb0bf82",
+      "declarations": [
+        {
+          "kind": "table",
+          "name": "public.support_tickets",
+          "line": 3
+        },
+        {
+          "kind": "table",
+          "name": "public.support_messages",
+          "line": 12
+        },
+        {
+          "kind": "policy",
+          "name": "support_tickets_select_participants",
+          "line": 31
+        },
+        {
+          "kind": "policy",
+          "name": "support_tickets_insert_requester",
+          "line": 33
+        },
+        {
+          "kind": "policy",
+          "name": "support_tickets_update_requester",
+          "line": 35
+        },
+        {
+          "kind": "policy",
+          "name": "support_messages_select_participants",
+          "line": 37
+        },
+        {
+          "kind": "policy",
+          "name": "support_messages_insert_participants",
+          "line": 39
+        },
+        {
+          "kind": "function",
+          "name": "public.notify_support_ticket_activity",
+          "line": 42
+        },
+        {
+          "kind": "trigger",
+          "name": "support_ticket_created_notify",
+          "line": 72
+        },
+        {
+          "kind": "trigger",
+          "name": "support_message_notify",
+          "line": 74
+        },
+        {
+          "kind": "policy",
+          "name": "support_attachments_read",
+          "line": 80
+        },
+        {
+          "kind": "policy",
+          "name": "support_attachments_write",
+          "line": 82
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608190002_support_message_attachments.sql",
+      "sha256": "4c601cfba58bf0162db8de889c07015074a56f726a37662fe400ac1dafd156d2",
+      "declarations": [
+        {
+          "kind": "policy",
+          "name": "support_attachments_write",
+          "line": 8
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608190003_surgery_team_summary_permissions.sql",
+      "sha256": "12ae2981cde257dd5836ab2d309f0b730a06d68fe9ad6d37126693099643ad40",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.is_surgery_consult_team_member",
+          "line": 7
+        },
+        {
+          "kind": "function",
+          "name": "public.enforce_refer_consult_update",
+          "line": 31
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608190004_admin_delete_support_tickets.sql",
+      "sha256": "dfa6cce9e7b61705755f85af3c787e0f11dd0e2fc0d5e33aaac5e06d6487e4aa",
+      "declarations": [
+        {
+          "kind": "policy",
+          "name": "support_tickets_delete_admin",
+          "line": 6
+        },
+        {
+          "kind": "policy",
+          "name": "support_attachments_delete_admin",
+          "line": 11
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608210001_fix_chat_read_receipt_loop.sql",
+      "sha256": "29bceb9351371a373700dea1ce5b1655560c63ce351d894cfae947b7158b5e3c",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.mark_consult_messages_read",
+          "line": 4
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202608210002_normalize_consult_refer_lifecycle.sql",
+      "sha256": "f9f1a218a11283014da43032215e7d3aedea98247600b068a6067431051ef89a",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.enforce_refer_consult_update",
+          "line": 3
+        },
+        {
+          "kind": "function",
+          "name": "public.confirm_refer_appointment",
+          "line": 54
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202609020001_secure_shared_care_workflow.sql",
+      "sha256": "5aaf3f82a0ac5f7e393c8beac4f22eea9bb0d89b65f732a02a6f57a3de92847c",
+      "declarations": [
+        {
+          "kind": "table",
+          "name": "public.shared_care_audit_log",
+          "line": 9
+        },
+        {
+          "kind": "policy",
+          "name": "shared_care_audit_read_participants",
+          "line": 27
+        },
+        {
+          "kind": "function",
+          "name": "public.is_shared_care_destination",
+          "line": 32
+        },
+        {
+          "kind": "policy",
+          "name": "consult_images_insert_shared_care_participants",
+          "line": 65
+        },
+        {
+          "kind": "function",
+          "name": "public.mutate_shared_care",
+          "line": 82
+        },
+        {
+          "kind": "function",
+          "name": "public.protect_shared_care_updates",
+          "line": 239
+        },
+        {
+          "kind": "trigger",
+          "name": "protect_shared_care_updates",
+          "line": 259
+        },
+        {
+          "kind": "function",
+          "name": "public.validate_shared_care_message",
+          "line": 262
+        },
+        {
+          "kind": "trigger",
+          "name": "validate_shared_care_message",
+          "line": 319
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202609020002_repair_legacy_shared_care_and_block_local_writes.sql",
+      "sha256": "b6a90015197eaf86ed659fcefb8907f680c9ab548faa7192cf16be1fff4bbdcc",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.is_local_preview_request",
+          "line": 6
+        },
+        {
+          "kind": "function",
+          "name": "public.reject_local_preview_clinical_write",
+          "line": 22
+        },
+        {
+          "kind": "trigger",
+          "name": "reject_local_preview_consult_writes",
+          "line": 40
+        },
+        {
+          "kind": "trigger",
+          "name": "reject_local_preview_message_writes",
+          "line": 45
+        },
+        {
+          "kind": "policy",
+          "name": "consult_images_insert_shared_care_participants",
+          "line": 50
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202609050001_fix_consult_invitation_acceptance.sql",
+      "sha256": "aea5ccf22feeebb4c85642e33ac98c106c4aa26e9f0f922418d1470143c9af53",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.respond_consult_invitation",
+          "line": 6
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202609100001_lock_completed_consult_chat.sql",
+      "sha256": "4eae01a0e10979600861a4b567588e50b6075a5af95e45edbf8decb60ebb449f",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.lock_completed_consult_chat",
+          "line": 7
+        },
+        {
+          "kind": "trigger",
+          "name": "lock_completed_consult_chat",
+          "line": 38
+        },
+        {
+          "kind": "function",
+          "name": "public.enforce_completed_consult_reopen",
+          "line": 45
+        },
+        {
+          "kind": "trigger",
+          "name": "enforce_completed_consult_reopen",
+          "line": 77
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202609100002_reopen_cancelled_refer_consult.sql",
+      "sha256": "6c9a85f223f6d145ac5ca902b379406ad76f8223befe329987dd40ae0fcc5142",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.enforce_refer_consult_update",
+          "line": 8
+        },
+        {
+          "kind": "function",
+          "name": "public.enforce_completed_consult_reopen",
+          "line": 80
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202609110001_reopen_referred_back_consult.sql",
+      "sha256": "1f69f577173b6cd13ff809640ec25b3fae449d896f1fa35972f45ba52509a608",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.enforce_refer_consult_update",
+          "line": 6
+        },
+        {
+          "kind": "function",
+          "name": "public.enforce_completed_consult_reopen",
+          "line": 72
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202609120001_node_hospital_receiving_analytics.sql",
+      "sha256": "e0cceb221f792c6f735329703b34c70176bc726abfbb64be40900d441d4e6be0",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.get_network_dashboard_analytics",
+          "line": 3
+        }
+      ]
+    },
+    {
+      "path": "supabase/migrations/202609160001_allow_chat_during_active_refer.sql",
+      "sha256": "17f7d7bb454e594da2aaec001d3af917e32c031cc19188b0808efd406813a50e",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "public.lock_completed_consult_chat",
+          "line": 6
+        }
+      ]
+    }
+  ]
+}

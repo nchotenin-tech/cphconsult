@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+backups/
+exports/
+uploads/
+private-data/
+*.dump
+*.backup
+*.log
