@@ -11,5 +11,12 @@ export function readConfig(env: NodeJS.ProcessEnv) {
       throw new Error('Invalid DATABASE_URL');
     }
   }
-  return { port: Number(portText), host: env.HOST ?? '127.0.0.1', databaseUrl };
+  const originText = env.APP_ORIGIN ?? `http://127.0.0.1:${portText}`;
+  let origin: URL;
+  try { origin = new URL(originText); } catch { throw new Error('Invalid APP_ORIGIN'); }
+  if (origin.origin !== originText || origin.username || origin.password
+    || !['http:', 'https:'].includes(origin.protocol)
+    || (origin.protocol === 'http:' && !['127.0.0.1', 'localhost'].includes(origin.hostname))
+    || (env.NODE_ENV === 'production' && origin.protocol !== 'https:')) throw new Error('Invalid APP_ORIGIN');
+  return { port: Number(portText), host: env.HOST ?? '127.0.0.1', databaseUrl, origin: originText };
 }

@@ -1,11 +1,13 @@
 import { createApp } from './app.js';
 import { readConfig } from './config.js';
 import { createDatabase } from './database.js';
+import { createAuthRouter } from './auth.js';
 
 try {
   const config = readConfig(process.env);
   const database = createDatabase(config.databaseUrl);
-  const server = createApp(database.probe).listen(config.port, config.host, () => {
+  const auth = database.authStore ? await createAuthRouter(database.authStore, config.origin) : undefined;
+  const server = createApp(database.probe, auth).listen(config.port, config.host, () => {
     console.log('api_listening');
   });
   server.on('error', () => { console.error('api_listen_failed'); process.exitCode = 1; void database.close(); });

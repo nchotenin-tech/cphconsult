@@ -1,10 +1,10 @@
 import express from 'express';
-import type { ErrorRequestHandler } from 'express';
+import type { ErrorRequestHandler, Router } from 'express';
 import { randomUUID } from 'node:crypto';
 
 export type DatabaseProbe = () => Promise<boolean>;
 
-export function createApp(probe: DatabaseProbe) {
+export function createApp(probe: DatabaseProbe, authRouter?: Router) {
   const app = express();
   app.disable('x-powered-by');
   app.use((_req, res, next) => {
@@ -26,9 +26,11 @@ export function createApp(probe: DatabaseProbe) {
   app.get('/health/ready', (_req, res) => {
     res.status(503).json({ status: 'not_ready', reason: 'application_not_implemented' });
   });
+  if (authRouter) app.use('/api/v1/auth', authRouter);
   app.use((_req, res) => { res.status(404).json({ error: { code: 'NOT_FOUND' } }); });
   const errorHandler: ErrorRequestHandler = (_error, _req, res, _next) => {
-    res.status(500).json({ error: { code: 'INTERNAL_ERROR' } });
+    const status = _error?.type === 'entity.too.large' ? 413 : _error?.type === 'entity.parse.failed' ? 400 : 500;
+    res.status(status).json({ error: { code: status === 500 ? 'INTERNAL_ERROR' : 'INVALID_BODY' } });
   };
   app.use(errorHandler);
   return app;

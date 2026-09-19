@@ -5,6 +5,7 @@
 ## Status
 
 Phase 0 review continues; an initial Express/TypeScript platform slice now serves health probes. No clinical replacement application yet. See `docs/BACKEND.md` for local run commands and validation limits.
+Initial login/me/logout API and real PostgreSQL authentication tests are now implemented; see `docs/AUTH.md`. Account provisioning and frontend login remain pending.
 Provisional stack from the handoff: React/Vite, Express/TypeScript, PostgreSQL, Socket.IO.
 Frontend redesign and server specifications remain to be confirmed.
 

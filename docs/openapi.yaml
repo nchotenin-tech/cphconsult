@@ -1,11 +1,69 @@
 openapi: 3.1.0
 info:
-  title: CPH Consult platform probes
+  title: CPH Consult platform and authentication
   version: 0.1.0
-  description: Implemented platform endpoints only. Clinical and authentication API contracts are pending.
+  description: Platform and initial authentication endpoints. Clinical API contracts remain pending.
 servers:
   - url: http://127.0.0.1:3100
 paths:
+  /api/v1/auth/login:
+    post:
+      operationId: login
+      description: Requires Origin matching APP_ORIGIN. Sets HttpOnly session cookie; 8-hour absolute and 30-minute idle expiry.
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [login, password]
+              properties:
+                login: { type: string, minLength: 1, maxLength: 254 }
+                password: { type: string, minLength: 1, description: Maximum 1024 UTF-8 bytes. }
+      responses:
+        '200':
+          description: Authenticated; session cookie set.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SessionResponse' }
+        '401': { description: Invalid credentials, including unknown or inactive account. }
+        '403': { description: Origin rejected. }
+        '422': { description: Invalid input. }
+        '429': { description: Login rate or concurrent verification limit exceeded. }
+        '500': { description: Internal failure; details omitted. }
+  /api/v1/auth/me:
+    get:
+      operationId: getCurrentSession
+      security: [{ sessionCookie: [] }]
+      responses:
+        '200':
+          description: Current active user and CSRF token; idle timeout refreshed.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SessionResponse' }
+        '401': { description: Missing, expired, revoked or inactive session. }
+  /api/v1/auth/logout:
+    post:
+      operationId: logout
+      security: [{ sessionCookie: [] }]
+      parameters:
+        - in: header
+          name: Origin
+          required: true
+          schema: { type: string }
+        - in: header
+          name: X-CSRF-Token
+          required: true
+          schema: { type: string }
+      responses:
+        '204': { description: Session revoked and cookie cleared. }
+        '401': { description: No valid session. }
+        '403': { description: Origin or CSRF rejected. }
   /health/live:
     get:
       operationId: getLiveness
@@ -55,3 +113,22 @@ paths:
                 properties:
                   status: { const: not_ready }
                   reason: { const: application_not_implemented }
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: cph_session
+  schemas:
+    SessionResponse:
+      type: object
+      required: [user, csrfToken]
+      properties:
+        csrfToken: { type: string }
+        user:
+          type: object
+          required: [id, login, mustChangePassword]
+          properties:
+            id: { type: string, format: uuid }
+            login: { type: string }
+            mustChangePassword: { type: boolean }
