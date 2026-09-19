@@ -1,7 +1,7 @@
 # Authentication API — first implementation
 
 Implemented: POST `/api/v1/auth/login`, GET `/api/v1/auth/me`, POST `/api/v1/auth/logout`.
-Clinical readiness remains false. There is no login UI, registration, password-change or recovery endpoint yet. No real account has been imported or provisioned.
+Clinical readiness remains false. A React login UI and local synthetic-account tool are now available (see LOGIN-UI.md); registration, password-change and recovery endpoints remain pending. No real account has been imported or provisioned.
 
 ## Local installation
 

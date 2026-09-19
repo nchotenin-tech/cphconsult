@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && tsc -p web/tsconfig.json && vite build web --outDir ../web-dist",
     "test": "npm run build && node --test server/test/platform.test.mjs server/test/actor-transaction.test.mjs server/test/pool-denial.test.mjs server/test/auth.test.mjs server/test/startup.test.mjs",
     "start": "node dist/main.js",
     "dev": "tsx server/src/main.ts"
@@ -12,13 +12,18 @@
   "dependencies": {
     "argon2": "0.44.0",
     "express": "5.2.1",
-    "pg": "8.23.0"
+    "pg": "8.23.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   },
   "devDependencies": {
     "@types/express": "5.0.6",
     "@types/node": "22.20.4",
     "@types/pg": "8.23.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
     "tsx": "4.23.13",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vite": "7.3.6"
   }
 }
