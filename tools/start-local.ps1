@@ -1,3 +1,4 @@
+param([switch]$VerifyIdentity)
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 Push-Location -LiteralPath $projectRoot
@@ -23,9 +24,15 @@ try {
     $env:PORT = '3100'
     & node tools/check-local-database.mjs
     if ($LASTEXITCODE -ne 0) { throw 'Database preflight failed. The API was not started.' }
-    Write-Host 'Starting API at http://127.0.0.1:3100. Stop with Ctrl+C.'
-    & node dist/main.js
-    if ($LASTEXITCODE -ne 0) { throw 'API exited with an error.' }
+    if ($VerifyIdentity) {
+        & node tools/verify-runtime-identity.mjs
+        if ($LASTEXITCODE -ne 0) { throw 'Runtime identity checks failed. See the safe check label above.' }
+    }
+    else {
+        Write-Host 'Starting API at http://127.0.0.1:3100. Stop with Ctrl+C.'
+        & node dist/main.js
+        if ($LASTEXITCODE -ne 0) { throw 'API exited with an error.' }
+    }
 }
 finally {
     if ($passwordPointer -ne [IntPtr]::Zero) { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($passwordPointer) }

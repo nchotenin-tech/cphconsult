@@ -19,3 +19,15 @@ The fourth file inserts two synthetic rows inside a transaction as the administr
 TypeScript build and 10 HTTP/configuration/transaction-control tests pass locally. The new SQL has not yet run on the user's PostgreSQL instance. The SQL role-switch test is not a substitute for integration tests over an actual runtime login, pooled-connection reuse after COMMIT/ROLLBACK, disabled accounts, session revocation, CSRF and HTTP/socket authorization. Those remain release gates. No clinical data has been transferred.
 
 Design references: [PostgreSQL RLS](https://www.postgresql.org/docs/18/ddl-rowsecurity.html), [node-postgres transactions](https://node-postgres.com/features/transactions).
+
+## Actual runtime login and connection reuse check
+
+The user has now confirmed migration 0002 and `identity_rls_checks_passed` in pgAdmin. The next verification uses the real runtime login from Node, with pool size 1 and backend PID assertions to prove physical connection reuse:
+
+```powershell
+.\tools\start-local.ps1 -VerifyIdentity
+```
+
+Enter the runtime password in the local masked prompt. This mode runs preflight and nine checks, then exits without starting a second API. It can run while the existing API is open. It checks real current/session role, anonymous reads, actor A context, commit cleanup, actor B context with a real SQL error, rollback cleanup, credential denial, write denial and connection reuse. Expected final line: `runtime_identity_checks_passed: 9/9`.
+
+No test accounts or data are inserted. Random actor IDs exercise context lifecycle, not positive account visibility; positive two-account visibility was covered by the separate pgAdmin fixture test. The write-denial probe uses WHERE false so it cannot change records even if permissions regress. Only safe check labels are printed on failure. This test has been prepared but its live execution still requires the user's local password entry. Login/session API implementation and HTTP authentication remain pending.
