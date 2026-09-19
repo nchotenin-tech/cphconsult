@@ -7,6 +7,9 @@
 - The reference commit exists locally and is 31 commits ahead of that checkout.
 - Source-only inventory can be generated without modifying the legacy checkout.
 - No live schema, data counts, files, Auth export or restore has been inspected or verified.
+- Draft entity mapping covers all 26 discovered table names; column evidence contains 197 source locations, not a complete effective schema.
+- Preliminary permission matrix records critical clinical boundaries and unresolved combined-trigger review.
+- Docker CLI is installed but its Linux engine is unavailable; PostgreSQL runtime/RLS tests have not run.
 
 ## Phase 0 remaining
 

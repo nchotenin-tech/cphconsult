@@ -29,8 +29,11 @@ Run from this directory with Node.js and Git available:
 
 ```powershell
 node tools/inventory-source.mjs ../cphdent-consult-network
+node tools/column-evidence.mjs ../cphdent-consult-network
 ```
 
 The tool reads only named SQL source files from the fixed Git revision and writes schema object names, locations and hashes to `docs/source-inventory.json`. It never connects to a database or reads working-tree environment files. This is a discovery index, not an effective SQL catalog or migration executable.
 
 See `docs/READINESS.md` for remaining work and `docs/handoff/` for the original design documents.
+
+Draft entity disposition: `docs/DATA-MAPPING.md`. Preliminary operation-level authorization evidence: `docs/PERMISSIONS.md`. Neither document is approval to migrate production data. Original handoff documents are historical references; this independent repository and one-time cutover agreement supersede their old branch/setup instructions.

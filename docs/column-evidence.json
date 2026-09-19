@@ -1,0 +1,1579 @@
+{
+  "revision": "56ba8b18ff58bfa5c58dc0b9ca555f993049298c",
+  "limitations": "Line-based discovery only: multiline/quoted/dynamic SQL and full type modifiers may be missed. No effective schema or completeness claim. Review original SQL and live catalog.",
+  "evidence": [
+    {
+      "table": "public.hospitals",
+      "column": "id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 7
+    },
+    {
+      "table": "public.hospitals",
+      "column": "name",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 8
+    },
+    {
+      "table": "public.hospitals",
+      "column": "level",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 9
+    },
+    {
+      "table": "public.dentists",
+      "column": "id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 13
+    },
+    {
+      "table": "public.dentists",
+      "column": "name",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 14
+    },
+    {
+      "table": "public.dentists",
+      "column": "hospital_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 15
+    },
+    {
+      "table": "public.dentists",
+      "column": "specialties",
+      "typeToken": "text[]",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 16
+    },
+    {
+      "table": "public.dentists",
+      "column": "line_user_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 17
+    },
+    {
+      "table": "public.dentists",
+      "column": "avatar_url",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 18
+    },
+    {
+      "table": "public.dentists",
+      "column": "email",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 19
+    },
+    {
+      "table": "public.dentists",
+      "column": "role",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 20
+    },
+    {
+      "table": "public.dentists",
+      "column": "role",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 23
+    },
+    {
+      "table": "public.specialty_group_ids",
+      "column": "specialty",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 29
+    },
+    {
+      "table": "public.specialty_group_ids",
+      "column": "group_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 30
+    },
+    {
+      "table": "public.specialty_group_ids",
+      "column": "target_type",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 31
+    },
+    {
+      "table": "public.specialty_group_ids",
+      "column": "target_type",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 33
+    },
+    {
+      "table": "public.consults",
+      "column": "id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 39
+    },
+    {
+      "table": "public.consults",
+      "column": "patient_name",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 40
+    },
+    {
+      "table": "public.consults",
+      "column": "patient_gender",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 41
+    },
+    {
+      "table": "public.consults",
+      "column": "patient_age",
+      "typeToken": "integer",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 42
+    },
+    {
+      "table": "public.consults",
+      "column": "patient_scheme",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 43
+    },
+    {
+      "table": "public.consults",
+      "column": "underlying_diseases",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 44
+    },
+    {
+      "table": "public.consults",
+      "column": "drug_allergies",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 45
+    },
+    {
+      "table": "public.consults",
+      "column": "consult_details",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 46
+    },
+    {
+      "table": "public.consults",
+      "column": "attachments",
+      "typeToken": "jsonb",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 47
+    },
+    {
+      "table": "public.consults",
+      "column": "target_hospital_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 48
+    },
+    {
+      "table": "public.consults",
+      "column": "sender_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 49
+    },
+    {
+      "table": "public.consults",
+      "column": "target_specialties",
+      "typeToken": "text[]",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 50
+    },
+    {
+      "table": "public.consults",
+      "column": "target_dentist_ids",
+      "typeToken": "text[]",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 51
+    },
+    {
+      "table": "public.consults",
+      "column": "notification_mode",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 52
+    },
+    {
+      "table": "public.consults",
+      "column": "status",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 53
+    },
+    {
+      "table": "public.consults",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 54
+    },
+    {
+      "table": "public.messages",
+      "column": "id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 63
+    },
+    {
+      "table": "public.messages",
+      "column": "consult_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 64
+    },
+    {
+      "table": "public.messages",
+      "column": "sender_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 65
+    },
+    {
+      "table": "public.messages",
+      "column": "text",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 66
+    },
+    {
+      "table": "public.messages",
+      "column": "audio_url",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 67
+    },
+    {
+      "table": "public.messages",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 68
+    },
+    {
+      "table": "public.announcements",
+      "column": "id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 73
+    },
+    {
+      "table": "public.announcements",
+      "column": "title",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 74
+    },
+    {
+      "table": "public.announcements",
+      "column": "content",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 75
+    },
+    {
+      "table": "public.announcements",
+      "column": "attachments",
+      "typeToken": "jsonb",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 76
+    },
+    {
+      "table": "public.announcements",
+      "column": "author_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 77
+    },
+    {
+      "table": "public.announcements",
+      "column": "author_name",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 78
+    },
+    {
+      "table": "public.announcements",
+      "column": "author_hospital",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 79
+    },
+    {
+      "table": "public.announcements",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 80
+    },
+    {
+      "table": "public.notifications",
+      "column": "id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 84
+    },
+    {
+      "table": "public.notifications",
+      "column": "user_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 85
+    },
+    {
+      "table": "public.notifications",
+      "column": "text",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 86
+    },
+    {
+      "table": "public.notifications",
+      "column": "read",
+      "typeToken": "boolean",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 87
+    },
+    {
+      "table": "public.notifications",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 88
+    },
+    {
+      "table": "public.notifications",
+      "column": "consult_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 89
+    },
+    {
+      "table": "public.line_rate_limits",
+      "column": "user_id",
+      "typeToken": "uuid",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 94
+    },
+    {
+      "table": "public.line_rate_limits",
+      "column": "window_started_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 95
+    },
+    {
+      "table": "public.line_rate_limits",
+      "column": "request_count",
+      "typeToken": "integer",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 96
+    },
+    {
+      "table": "public.line_rate_limits",
+      "column": "updated_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 97
+    },
+    {
+      "table": "public.app_audit_log",
+      "column": "id",
+      "typeToken": "bigint",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 101
+    },
+    {
+      "table": "public.app_audit_log",
+      "column": "table_name",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 102
+    },
+    {
+      "table": "public.app_audit_log",
+      "column": "record_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 103
+    },
+    {
+      "table": "public.app_audit_log",
+      "column": "action",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 104
+    },
+    {
+      "table": "public.app_audit_log",
+      "column": "changed_by",
+      "typeToken": "uuid",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 105
+    },
+    {
+      "table": "public.app_audit_log",
+      "column": "changed_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 106
+    },
+    {
+      "table": "public.line_group_settings_version",
+      "column": "singleton",
+      "typeToken": "boolean",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 111
+    },
+    {
+      "table": "public.line_group_settings_version",
+      "column": "version",
+      "typeToken": "bigint",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 112
+    },
+    {
+      "table": "public.line_group_settings_version",
+      "column": "updated_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 113
+    },
+    {
+      "table": "public.line_group_settings_version",
+      "column": "updated_by",
+      "typeToken": "uuid",
+      "operation": "create-candidate",
+      "path": "deployment/new-stack-bootstrap/00_bootstrap.sql",
+      "line": 114
+    },
+    {
+      "table": "public.specialty_group_ids",
+      "column": "target_type",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202607110001_security_hardening.sql",
+      "line": 5
+    },
+    {
+      "table": "public.dentists",
+      "column": "role",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 5
+    },
+    {
+      "table": "public.line_rate_limits",
+      "column": "user_id",
+      "typeToken": "uuid",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 35
+    },
+    {
+      "table": "public.line_rate_limits",
+      "column": "window_started_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 36
+    },
+    {
+      "table": "public.line_rate_limits",
+      "column": "request_count",
+      "typeToken": "integer",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 37
+    },
+    {
+      "table": "public.line_rate_limits",
+      "column": "updated_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 38
+    },
+    {
+      "table": "public.app_audit_log",
+      "column": "id",
+      "typeToken": "bigint",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 92
+    },
+    {
+      "table": "public.app_audit_log",
+      "column": "table_name",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 93
+    },
+    {
+      "table": "public.app_audit_log",
+      "column": "record_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 94
+    },
+    {
+      "table": "public.app_audit_log",
+      "column": "action",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 95
+    },
+    {
+      "table": "public.app_audit_log",
+      "column": "changed_by",
+      "typeToken": "uuid",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 96
+    },
+    {
+      "table": "public.app_audit_log",
+      "column": "changed_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 97
+    },
+    {
+      "table": "public.line_group_settings_version",
+      "column": "singleton",
+      "typeToken": "boolean",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 137
+    },
+    {
+      "table": "public.line_group_settings_version",
+      "column": "version",
+      "typeToken": "bigint",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 138
+    },
+    {
+      "table": "public.line_group_settings_version",
+      "column": "updated_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 139
+    },
+    {
+      "table": "public.line_group_settings_version",
+      "column": "updated_by",
+      "typeToken": "uuid",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607120001_line_security_and_audit.sql",
+      "line": 140
+    },
+    {
+      "table": "public.push_subscriptions",
+      "column": "id",
+      "typeToken": "uuid",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607170001_push_notifications.sql",
+      "line": 4
+    },
+    {
+      "table": "public.push_subscriptions",
+      "column": "dentist_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607170001_push_notifications.sql",
+      "line": 5
+    },
+    {
+      "table": "public.push_subscriptions",
+      "column": "endpoint",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607170001_push_notifications.sql",
+      "line": 6
+    },
+    {
+      "table": "public.push_subscriptions",
+      "column": "p256dh",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607170001_push_notifications.sql",
+      "line": 7
+    },
+    {
+      "table": "public.push_subscriptions",
+      "column": "auth",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607170001_push_notifications.sql",
+      "line": 8
+    },
+    {
+      "table": "public.push_subscriptions",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607170001_push_notifications.sql",
+      "line": 9
+    },
+    {
+      "table": "public.push_subscriptions",
+      "column": "updated_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607170001_push_notifications.sql",
+      "line": 10
+    },
+    {
+      "table": "public.push_reply_events",
+      "column": "message_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607170001_push_notifications.sql",
+      "line": 16
+    },
+    {
+      "table": "public.push_reply_events",
+      "column": "consult_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607170001_push_notifications.sql",
+      "line": 17
+    },
+    {
+      "table": "public.push_reply_events",
+      "column": "responder_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607170001_push_notifications.sql",
+      "line": 18
+    },
+    {
+      "table": "public.push_reply_events",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607170001_push_notifications.sql",
+      "line": 19
+    },
+    {
+      "table": "public.push_chat_presence",
+      "column": "dentist_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607180002_push_chat_presence.sql",
+      "line": 2
+    },
+    {
+      "table": "public.push_chat_presence",
+      "column": "consult_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607180002_push_chat_presence.sql",
+      "line": 3
+    },
+    {
+      "table": "public.push_chat_presence",
+      "column": "last_seen",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607180002_push_chat_presence.sql",
+      "line": 4
+    },
+    {
+      "table": "public.push_preferences",
+      "column": "user_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 4
+    },
+    {
+      "table": "public.push_preferences",
+      "column": "new_consult_enabled",
+      "typeToken": "boolean",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 5
+    },
+    {
+      "table": "public.push_preferences",
+      "column": "reply_enabled",
+      "typeToken": "boolean",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 6
+    },
+    {
+      "table": "public.push_preferences",
+      "column": "updated_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 7
+    },
+    {
+      "table": "public.push_subscriptions",
+      "column": "user_id",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 13
+    },
+    {
+      "table": "public.push_subscriptions",
+      "column": "dentist_id",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 14
+    },
+    {
+      "table": "public.push_subscriptions",
+      "column": "user_agent",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 15
+    },
+    {
+      "table": "public.active_consult_sessions",
+      "column": "session_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 47
+    },
+    {
+      "table": "public.active_consult_sessions",
+      "column": "user_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 48
+    },
+    {
+      "table": "public.active_consult_sessions",
+      "column": "consult_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 49
+    },
+    {
+      "table": "public.active_consult_sessions",
+      "column": "expires_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 50
+    },
+    {
+      "table": "public.active_consult_sessions",
+      "column": "updated_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 51
+    },
+    {
+      "table": "public.push_deliveries",
+      "column": "id",
+      "typeToken": "bigint",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 57
+    },
+    {
+      "table": "public.push_deliveries",
+      "column": "event_key",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 58
+    },
+    {
+      "table": "public.push_deliveries",
+      "column": "user_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 59
+    },
+    {
+      "table": "public.push_deliveries",
+      "column": "subscription_id",
+      "typeToken": "uuid",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 60
+    },
+    {
+      "table": "public.push_deliveries",
+      "column": "status",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 61
+    },
+    {
+      "table": "public.push_deliveries",
+      "column": "error",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 62
+    },
+    {
+      "table": "public.push_deliveries",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 63
+    },
+    {
+      "table": "public.push_deliveries",
+      "column": "sent_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607200001_new_consult_push.sql",
+      "line": 64
+    },
+    {
+      "table": "public.active_app_sessions",
+      "column": "session_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607210001_chat_notification_routing.sql",
+      "line": 7
+    },
+    {
+      "table": "public.active_app_sessions",
+      "column": "user_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607210001_chat_notification_routing.sql",
+      "line": 8
+    },
+    {
+      "table": "public.active_app_sessions",
+      "column": "expires_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607210001_chat_notification_routing.sql",
+      "line": 9
+    },
+    {
+      "table": "public.active_app_sessions",
+      "column": "updated_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607210001_chat_notification_routing.sql",
+      "line": 10
+    },
+    {
+      "table": "public.dentist_private_profiles",
+      "column": "dentist_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607220001_private_registration_identifiers.sql",
+      "line": 29
+    },
+    {
+      "table": "public.dentist_private_profiles",
+      "column": "citizen_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607220001_private_registration_identifiers.sql",
+      "line": 30
+    },
+    {
+      "table": "public.dentist_private_profiles",
+      "column": "dental_license_number",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607220001_private_registration_identifiers.sql",
+      "line": 31
+    },
+    {
+      "table": "public.dentist_private_profiles",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607220001_private_registration_identifiers.sql",
+      "line": 32
+    },
+    {
+      "table": "public.dentist_private_profiles",
+      "column": "updated_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607220001_private_registration_identifiers.sql",
+      "line": 33
+    },
+    {
+      "table": "public.messages",
+      "column": "read_at",
+      "typeToken": "timestamp",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202607240001_message_read_receipts.sql",
+      "line": 2
+    },
+    {
+      "table": "public.messages",
+      "column": "read_by",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202607240001_message_read_receipts.sql",
+      "line": 3
+    },
+    {
+      "table": "public.dentist_private_profiles",
+      "column": "citizen_id",
+      "operation": "alter-review",
+      "path": "supabase/migrations/202607250001_optional_moph_citizen_id.sql",
+      "line": 4
+    },
+    {
+      "table": "public.consults",
+      "column": "notification_mode",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202607260001_consult_notification_mode.sql",
+      "line": 4
+    },
+    {
+      "table": "public.dentist_private_profiles",
+      "column": "dental_license_number",
+      "operation": "alter-review",
+      "path": "supabase/migrations/202607280001_create_missing_private_profile.sql",
+      "line": 5
+    },
+    {
+      "table": "public.moph_alert_deliveries",
+      "column": "id",
+      "typeToken": "bigint",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607280003_moph_conversation_alerts.sql",
+      "line": 6
+    },
+    {
+      "table": "public.moph_alert_deliveries",
+      "column": "event_key",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607280003_moph_conversation_alerts.sql",
+      "line": 7
+    },
+    {
+      "table": "public.moph_alert_deliveries",
+      "column": "consult_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607280003_moph_conversation_alerts.sql",
+      "line": 8
+    },
+    {
+      "table": "public.moph_alert_deliveries",
+      "column": "message_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607280003_moph_conversation_alerts.sql",
+      "line": 9
+    },
+    {
+      "table": "public.moph_alert_deliveries",
+      "column": "sender_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607280003_moph_conversation_alerts.sql",
+      "line": 10
+    },
+    {
+      "table": "public.moph_alert_deliveries",
+      "column": "recipient_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607280003_moph_conversation_alerts.sql",
+      "line": 11
+    },
+    {
+      "table": "public.moph_alert_deliveries",
+      "column": "event_type",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607280003_moph_conversation_alerts.sql",
+      "line": 12
+    },
+    {
+      "table": "public.moph_alert_deliveries",
+      "column": "status",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607280003_moph_conversation_alerts.sql",
+      "line": 13
+    },
+    {
+      "table": "public.moph_alert_deliveries",
+      "column": "response_code",
+      "typeToken": "integer",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607280003_moph_conversation_alerts.sql",
+      "line": 14
+    },
+    {
+      "table": "public.moph_alert_deliveries",
+      "column": "error",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607280003_moph_conversation_alerts.sql",
+      "line": 15
+    },
+    {
+      "table": "public.moph_alert_deliveries",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607280003_moph_conversation_alerts.sql",
+      "line": 16
+    },
+    {
+      "table": "public.moph_alert_deliveries",
+      "column": "sent_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202607280003_moph_conversation_alerts.sql",
+      "line": 17
+    },
+    {
+      "table": "public.consults",
+      "column": "patient_phone",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202608020001_post_consult_refer_workflow.sql",
+      "line": 2
+    },
+    {
+      "table": "public.consults",
+      "column": "post_consult_option",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202608020001_post_consult_refer_workflow.sql",
+      "line": 3
+    },
+    {
+      "table": "public.consults",
+      "column": "refer_status",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202608020001_post_consult_refer_workflow.sql",
+      "line": 4
+    },
+    {
+      "table": "public.consults",
+      "column": "refer_data",
+      "typeToken": "jsonb",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202608020001_post_consult_refer_workflow.sql",
+      "line": 5
+    },
+    {
+      "table": "public.refer_service_locations",
+      "column": "id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020001_post_consult_refer_workflow.sql",
+      "line": 18
+    },
+    {
+      "table": "public.refer_service_locations",
+      "column": "hospital_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020001_post_consult_refer_workflow.sql",
+      "line": 19
+    },
+    {
+      "table": "public.refer_service_locations",
+      "column": "name",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020001_post_consult_refer_workflow.sql",
+      "line": 20
+    },
+    {
+      "table": "public.refer_service_locations",
+      "column": "phone",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020001_post_consult_refer_workflow.sql",
+      "line": 21
+    },
+    {
+      "table": "public.refer_service_locations",
+      "column": "is_default",
+      "typeToken": "boolean",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020001_post_consult_refer_workflow.sql",
+      "line": 22
+    },
+    {
+      "table": "public.refer_service_locations",
+      "column": "created_by",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020001_post_consult_refer_workflow.sql",
+      "line": 23
+    },
+    {
+      "table": "public.refer_service_locations",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020001_post_consult_refer_workflow.sql",
+      "line": 24
+    },
+    {
+      "table": "public.refer_service_locations",
+      "column": "updated_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020001_post_consult_refer_workflow.sql",
+      "line": 25
+    },
+    {
+      "table": "public.consults",
+      "column": "shared_care_status",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202608020002_shared_care_and_consult_invites.sql",
+      "line": 2
+    },
+    {
+      "table": "public.consults",
+      "column": "shared_care_data",
+      "typeToken": "jsonb",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202608020002_shared_care_and_consult_invites.sql",
+      "line": 3
+    },
+    {
+      "table": "public.consults",
+      "column": "primary_consultant_id",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202608020002_shared_care_and_consult_invites.sql",
+      "line": 4
+    },
+    {
+      "table": "public.consult_invitations",
+      "column": "id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020002_shared_care_and_consult_invites.sql",
+      "line": 15
+    },
+    {
+      "table": "public.consult_invitations",
+      "column": "consult_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020002_shared_care_and_consult_invites.sql",
+      "line": 16
+    },
+    {
+      "table": "public.consult_invitations",
+      "column": "invited_by",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020002_shared_care_and_consult_invites.sql",
+      "line": 17
+    },
+    {
+      "table": "public.consult_invitations",
+      "column": "invited_dentist_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020002_shared_care_and_consult_invites.sql",
+      "line": 18
+    },
+    {
+      "table": "public.consult_invitations",
+      "column": "specialty",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020002_shared_care_and_consult_invites.sql",
+      "line": 19
+    },
+    {
+      "table": "public.consult_invitations",
+      "column": "question",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020002_shared_care_and_consult_invites.sql",
+      "line": 20
+    },
+    {
+      "table": "public.consult_invitations",
+      "column": "status",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020002_shared_care_and_consult_invites.sql",
+      "line": 21
+    },
+    {
+      "table": "public.consult_invitations",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020002_shared_care_and_consult_invites.sql",
+      "line": 22
+    },
+    {
+      "table": "public.consult_invitations",
+      "column": "responded_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608020002_shared_care_and_consult_invites.sql",
+      "line": 23
+    },
+    {
+      "table": "public.messages",
+      "column": "message_type",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202608090001_refer_workflow_cards.sql",
+      "line": 11
+    },
+    {
+      "table": "public.messages",
+      "column": "metadata",
+      "typeToken": "jsonb",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202608090001_refer_workflow_cards.sql",
+      "line": 12
+    },
+    {
+      "table": "public.workflow_layouts",
+      "column": "id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608100001_workflow_layouts.sql",
+      "line": 2
+    },
+    {
+      "table": "public.workflow_layouts",
+      "column": "layout",
+      "typeToken": "jsonb",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608100001_workflow_layouts.sql",
+      "line": 3
+    },
+    {
+      "table": "public.workflow_layouts",
+      "column": "updated_by",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608100001_workflow_layouts.sql",
+      "line": 4
+    },
+    {
+      "table": "public.workflow_layouts",
+      "column": "updated_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608100001_workflow_layouts.sql",
+      "line": 5
+    },
+    {
+      "table": "public.consults",
+      "column": "case_number",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202608110001_short_case_numbers.sql",
+      "line": 3
+    },
+    {
+      "table": "public.consult_case_number_counters",
+      "column": "buddhist_year",
+      "typeToken": "integer",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608110001_short_case_numbers.sql",
+      "line": 10
+    },
+    {
+      "table": "public.consult_case_number_counters",
+      "column": "last_value",
+      "typeToken": "bigint",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608110001_short_case_numbers.sql",
+      "line": 11
+    },
+    {
+      "table": "public.consults",
+      "column": "case_number",
+      "operation": "alter-review",
+      "path": "supabase/migrations/202608110001_short_case_numbers.sql",
+      "line": 83
+    },
+    {
+      "table": "public.support_tickets",
+      "column": "id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608190001_support_tickets.sql",
+      "line": 4
+    },
+    {
+      "table": "public.support_tickets",
+      "column": "requester_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608190001_support_tickets.sql",
+      "line": 5
+    },
+    {
+      "table": "public.support_tickets",
+      "column": "detail",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608190001_support_tickets.sql",
+      "line": 6
+    },
+    {
+      "table": "public.support_tickets",
+      "column": "attachments",
+      "typeToken": "jsonb",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608190001_support_tickets.sql",
+      "line": 7
+    },
+    {
+      "table": "public.support_tickets",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608190001_support_tickets.sql",
+      "line": 8
+    },
+    {
+      "table": "public.support_tickets",
+      "column": "updated_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608190001_support_tickets.sql",
+      "line": 9
+    },
+    {
+      "table": "public.support_messages",
+      "column": "id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608190001_support_tickets.sql",
+      "line": 13
+    },
+    {
+      "table": "public.support_messages",
+      "column": "ticket_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608190001_support_tickets.sql",
+      "line": 14
+    },
+    {
+      "table": "public.support_messages",
+      "column": "sender_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608190001_support_tickets.sql",
+      "line": 15
+    },
+    {
+      "table": "public.support_messages",
+      "column": "text",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608190001_support_tickets.sql",
+      "line": 16
+    },
+    {
+      "table": "public.support_messages",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202608190001_support_tickets.sql",
+      "line": 17
+    },
+    {
+      "table": "public.notifications",
+      "column": "support_ticket_id",
+      "typeToken": "text",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202608190001_support_tickets.sql",
+      "line": 23
+    },
+    {
+      "table": "public.support_messages",
+      "column": "attachments",
+      "typeToken": "jsonb",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202608190002_support_message_attachments.sql",
+      "line": 4
+    },
+    {
+      "table": "public.consults",
+      "column": "shared_care_version",
+      "typeToken": "bigint",
+      "operation": "add-candidate",
+      "path": "supabase/migrations/202609020001_secure_shared_care_workflow.sql",
+      "line": 7
+    },
+    {
+      "table": "public.shared_care_audit_log",
+      "column": "id",
+      "typeToken": "bigint",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202609020001_secure_shared_care_workflow.sql",
+      "line": 10
+    },
+    {
+      "table": "public.shared_care_audit_log",
+      "column": "consult_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202609020001_secure_shared_care_workflow.sql",
+      "line": 11
+    },
+    {
+      "table": "public.shared_care_audit_log",
+      "column": "step_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202609020001_secure_shared_care_workflow.sql",
+      "line": 12
+    },
+    {
+      "table": "public.shared_care_audit_log",
+      "column": "action",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202609020001_secure_shared_care_workflow.sql",
+      "line": 13
+    },
+    {
+      "table": "public.shared_care_audit_log",
+      "column": "actor_id",
+      "typeToken": "text",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202609020001_secure_shared_care_workflow.sql",
+      "line": 17
+    },
+    {
+      "table": "public.shared_care_audit_log",
+      "column": "details",
+      "typeToken": "jsonb",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202609020001_secure_shared_care_workflow.sql",
+      "line": 18
+    },
+    {
+      "table": "public.shared_care_audit_log",
+      "column": "created_at",
+      "typeToken": "timestamptz",
+      "operation": "create-candidate",
+      "path": "supabase/migrations/202609020001_secure_shared_care_workflow.sql",
+      "line": 19
+    }
+  ]
+}
