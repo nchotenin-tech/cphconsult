@@ -14,7 +14,11 @@
 - TypeScript build and 5 local HTTP/configuration tests passed on Node 20.19.5. Dependency installation audit reported zero known vulnerabilities at installation time; this is not a security certification.
 - `docs/openapi.yaml` covers implemented probes only; authentication/clinical contracts and the effective source schema review remain unfinished.
 
-## Phase 0 remaining
+## Development progress after initial inventory
+
+PostgreSQL 18 is available locally. Authentication, transaction-scoped identity, clinical read RLS and HTTP integration tests now run against an isolated synthetic cluster. The React UI supports login, scoped list/detail and consultation-status filters. OpenAPI documents these endpoints. The local tester and six-case demo were installed by the user; browser checks confirmed all six detail views and session persistence. Current test commands and their scope are in `CLINICAL-READ.md` and `CLINICAL-DEMO.md`. The initial inventory bullets above are historical; full schema/data/file verification and production readiness remain outstanding.
+
+## Phase 0 remaining tasks
 
 1. Review all SQL definitions in execution order, including replacements and drops; derive effective functions, triggers, policies and grants. Resolve duplicate migration version prefixes before choosing a migration runner.
 2. Build a column-level mapping and classify every source entity as preserve, transform or omit only with an approved reason. Include tables omitted from the initial handoff list.

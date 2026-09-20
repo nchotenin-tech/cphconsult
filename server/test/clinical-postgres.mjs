@@ -57,6 +57,23 @@ try {
     const page = await response.json(); seen.push(...page.items.map(row => row.id)); cursor = page.nextCursor;
   } while (cursor);
   assert.deepEqual(seen, consults.map(row => row.id).sort());
+  for (const status of ['all', 'pending', 'active', 'completed']) {
+    let after = '', ids = [];
+    do {
+      const response = await fetch(base + '/api/v1/consults?limit=1&status=' + status + '&after=' + encodeURIComponent(after), { headers });
+      assert.equal(response.status, 200);
+      const page = await response.json();
+      ids.push(...page.items.map(row => row.id)); after = page.nextCursor;
+      assert.ok(ids.length <= consults.length, 'pagination must terminate without duplicates');
+    } while (after);
+    assert.deepEqual(ids, consults.filter(row => status === 'all' || row.status === status).map(row => row.id).sort());
+    const denied = await fetch(base + '/api/v1/consults?status=' + status, { headers: { Cookie: cookies[6] } });
+    assert.equal(denied.status, 200);
+    assert.deepEqual(await denied.json(), { items: [], nextCursor: null });
+  }
+  for (const query of ['status=unknown', 'status=active&status=pending', 'status=']) {
+    assert.equal((await fetch(base + '/api/v1/consults?' + query, { headers })).status, 422);
+  }
   assert.equal((await fetch(base + '/api/v1/consults?limit=101', { headers })).status, 422);
   assert.equal((await fetch(base + '/api/v1/consults/missing-case', { headers })).status, 404);
   assert.equal((await fetch(base + '/api/v1/consults/' + consults[0].id, { headers: { Cookie: cookies[6], 'X-User-Id': accounts[7].id } })).status, 404);

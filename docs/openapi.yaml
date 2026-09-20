@@ -13,6 +13,10 @@ paths:
       description: RLS-scoped list ordered by text ID. No dentist mapping yields an empty list.
       parameters:
         - in: query
+          name: status
+          description: Consultation status only; completed may still have ongoing Refer or Shared Care. Reset after when changing filter.
+          schema: { type: string, enum: [all, pending, active, completed], default: all }
+        - in: query
           name: limit
           schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
         - in: query

@@ -11,6 +11,7 @@ Restart the API with `tools/start-local.ps1` after installing the schema. This m
 ## Contract and access
 
 - `GET /api/v1/consults?limit=20&after=<last-id>` returns `{items, nextCursor}`. Limit is 1–100. Ordering and cursor comparison use database text ID order, not creation time.
+- Optional `status=all|pending|active|completed` filters consultation status before pagination. Missing status defaults to all; invalid or repeated status returns 422. Reset the cursor on filter changes. This is not a Refer/Shared Care workflow filter.
 - `GET /api/v1/consults/:id` returns `{item}` or the same 404 for missing and inaccessible cases.
 - Both require an active session. Missing/expired sessions return 401; accounts requiring password change return 403.
 - The server derives the actor from its session and sets transaction-local RLS context. Request headers/parameters cannot select the actor.

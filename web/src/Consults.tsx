@@ -6,6 +6,7 @@ const label = (value: string | null) => value ? labels[value] ?? value : '—';
 
 export function Consults({ onExpired }: { onExpired: () => void }) {
   const [after, setAfter] = useState('');
+  const [status, setStatus] = useState('all');
   const [reload, setReload] = useState(0);
   const [rows, setRows] = useState<Case[]>([]);
   const [next, setNext] = useState<string | null>(null);
@@ -16,7 +17,7 @@ export function Consults({ onExpired }: { onExpired: () => void }) {
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true); setError(''); setDetail(null); setRows([]); setNext(null);
-    const path = selected ? '/' + encodeURIComponent(selected) : '?limit=20&after=' + encodeURIComponent(after);
+    const path = selected ? '/' + encodeURIComponent(selected) : '?limit=20&after=' + encodeURIComponent(after) + '&status=' + encodeURIComponent(status);
     void fetch('/api/v1/consults' + path, { credentials: 'same-origin', signal: controller.signal }).then(async response => {
       if (controller.signal.aborted) return;
       if (response.status === 401) { onExpired(); return; }
@@ -27,11 +28,13 @@ export function Consults({ onExpired }: { onExpired: () => void }) {
     }).catch(error => { if (!controller.signal.aborted) setError(error instanceof Error ? error.message : 'เชื่อมต่อไม่ได้'); })
       .finally(() => { if (!controller.signal.aborted) setLoading(false); });
     return () => controller.abort();
-  }, [after, selected, reload, onExpired]);
+  }, [after, status, selected, reload, onExpired]);
   return <section className="clinical" aria-label="เคสปรึกษา">
     <div className="clinical-heading"><div><p className="eyebrow">CPH CONSULT · ระบบทดสอบ</p><h1>{selected ? 'รายละเอียดเคส' : 'รายการเคสปรึกษา'}</h1></div>
       <button className="secondary" onClick={() => setReload(value => value + 1)} disabled={loading}>โหลดใหม่</button></div>
     <p className="notice">แสดงเฉพาะเคสที่บัญชีของคุณมีสิทธิ์อ่าน · ขณะนี้เปิดดูข้อมูลได้เท่านั้น</p>
+    {!selected && <div className="case-filters" role="group" aria-label="กรองสถานะการปรึกษา">{['all', 'pending', 'active', 'completed'].map(value => <button key={value} className="secondary" aria-pressed={status === value} onClick={() => { setStatus(value); setAfter(''); }}>{value === 'all' ? 'ทั้งหมด' : label(value)}</button>)}</div>}
+    {!selected && <p className="notice">สถานะนี้แสดงการปรึกษา เคสที่จบการปรึกษาอาจยังอยู่ระหว่างส่งต่อหรือดูแลร่วมกัน</p>}
     {selected && <button className="secondary" onClick={() => setSelected(null)}>← กลับรายการ</button>}
     {loading ? <p role="status">กำลังโหลดข้อมูล…</p> : error ? <p role="alert" className="error">{error}</p> : detail ? <article className="case-detail"><h2>{detail.patient_name}</h2>
       <dl><dt>รหัสเคส</dt><dd>{detail.id}</dd><dt>อายุ / เพศ</dt><dd>{detail.patient_age} ปี / {detail.patient_gender === 'male' ? 'ชาย' : detail.patient_gender === 'female' ? 'หญิง' : detail.patient_gender}</dd>

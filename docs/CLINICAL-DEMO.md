@@ -8,4 +8,8 @@ Restart `tools/start-local.ps1` to build/serve the latest frontend. Sign in at h
 
 The UI supports scoped list, cursor pagination, basic details, loading/error/empty states and expired-session handling. Attachments, chat, edits, invitation acceptance and full workflow details are not yet available. No production data has been imported.
 
+The list now supports All / Pending / Active / Completed consultation filters. Filtering happens in PostgreSQL before pagination with the same RLS policies. Switching filters resets pagination; returning from details retains the filter. Completed consultation does not mean Refer or Shared Care is finished. The six fixtures yield 6 / 1 / 1 / 4 rows respectively. No new SQL migration is needed; restart the API and reload the browser after updating code.
+
+Browser validation of the initial read UI: all six case details opened successfully, returning to the list worked, and the session survived a full reload. Status-filter browser validation must be performed against the restarted API.
+
 Validation: `npm test` builds both server and UI and runs 28 tests. `tools/test-auth-postgres.ps1` also exercises the demo SQL on an isolated database with rollback, verifies all six cases and tester mapping, and checks that a second run is rejected. Browser interaction remains a separate manual check.

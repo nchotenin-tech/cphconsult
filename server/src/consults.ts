@@ -17,6 +17,10 @@ export function createConsultRouter(pool: Pool, auth: AuthStore) {
   router.get('/', async (req, res) => {
     const limitText = req.query.limit ?? '20';
     const after = req.query.after ?? '';
+    const status = req.query.status ?? 'all';
+    if (typeof status !== 'string' || !['all', 'pending', 'active', 'completed'].includes(status)) {
+      res.status(422).json({ error: { code: 'INVALID_STATUS_FILTER' } }); return;
+    }
     if (typeof limitText !== 'string' || !/^\d{1,3}$/.test(limitText) || Number(limitText) < 1 || Number(limitText) > 100
       || typeof after !== 'string' || after.length > 200) {
       res.status(422).json({ error: { code: 'INVALID_PAGINATION' } }); return;
@@ -25,7 +29,7 @@ export function createConsultRouter(pool: Pool, auth: AuthStore) {
     const rows = await withActorTransaction(pool, res.locals.actorId, async client => {
       return (await client.query(`SELECT id, patient_name, patient_age, status, post_consult_option,
         refer_status, shared_care_status, created_at FROM app.consults
-        WHERE id > $1 ORDER BY id LIMIT $2`, [after, limit + 1])).rows;
+        WHERE id > $1 AND ($3::text IS NULL OR status = $3) ORDER BY id LIMIT $2`, [after, limit + 1, status === 'all' ? null : status])).rows;
     });
     const more = rows.length > limit;
     const items = rows.slice(0, limit);
