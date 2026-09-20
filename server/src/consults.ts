@@ -60,10 +60,15 @@ export function createConsultRouter(pool: Pool, auth: AuthStore) {
   router.get('/:id', async (req, res) => {
     if (req.params.id.length > 200) { res.status(404).json({ error: { code: 'NOT_FOUND' } }); return; }
     const item = await withActorTransaction(pool, res.locals.actorId, async client => {
-      return (await client.query(`SELECT id, patient_name, patient_age, patient_gender, patient_scheme,
-        consult_details, sender_id, target_hospital_id, target_specialties, target_dentist_ids,
-        primary_consultant_id, status, post_consult_option, refer_status, shared_care_status, created_at
-        FROM app.consults WHERE id = $1`, [req.params.id])).rows[0];
+      return (await client.query(`SELECT c.id, c.patient_name, c.patient_age, c.patient_gender, c.patient_scheme,
+        c.consult_details, c.sender_id, c.target_hospital_id, c.target_specialties, c.target_dentist_ids,
+        c.primary_consultant_id, c.status, c.post_consult_option, c.refer_status, c.shared_care_status, c.created_at,
+        sender.name AS sender_name, hospital.name AS target_hospital_name, primary_dentist.name AS primary_consultant_name
+        FROM app.consults c
+        LEFT JOIN app.dentists sender ON sender.id = c.sender_id
+        LEFT JOIN app.hospitals hospital ON hospital.id = c.target_hospital_id
+        LEFT JOIN app.dentists primary_dentist ON primary_dentist.id = c.primary_consultant_id
+        WHERE c.id = $1`, [req.params.id])).rows[0];
     });
     if (!item) { res.status(404).json({ error: { code: 'NOT_FOUND' } }); return; }
     res.json({ item });

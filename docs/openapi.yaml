@@ -203,8 +203,11 @@ components:
       allOf:
         - $ref: '#/components/schemas/ConsultSummary'
         - type: object
-          required: [patient_gender, patient_scheme, consult_details, sender_id, target_hospital_id, target_specialties, target_dentist_ids, primary_consultant_id]
+          required: [patient_gender, patient_scheme, consult_details, sender_id, target_hospital_id, target_specialties, target_dentist_ids, primary_consultant_id, sender_name, target_hospital_name, primary_consultant_name]
           properties:
+            sender_name: { type: [string, 'null'] }
+            target_hospital_name: { type: [string, 'null'] }
+            primary_consultant_name: { type: [string, 'null'] }
             patient_gender: { type: string }
             patient_scheme: { type: string }
             consult_details: { type: string }

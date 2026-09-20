@@ -22,6 +22,10 @@ Only explicit summary/detail columns are returned. Attachment access, workflow J
 
 ## Validation
 
+Case detail now includes `sender_name`, `target_hospital_name` and `primary_consultant_name`, nullable when unassigned or unavailable. These are current directory names, not historical snapshots. LEFT JOINs preserve cases with missing optional references, and the same actor transaction/RLS protects both the case and directory lookup. No extra directory endpoint or grants were added. Integration checks assert names for every allowed actor/case pair and confirm denied responses contain only NOT_FOUND. No migration is required; restart the API and refresh the UI. Browser validation of these new labels is pending restart.
+
+The search UI was verified against the local demo: Thai name, uppercase case ID via Enter, combined workflow filter, clearing only the term, returning from detail retaining search, and restoring all six cases.
+
 The list accepts `q` (maximum 200 characters, no NUL or repeated parameter). It trims surrounding whitespace and matches a case-insensitive literal substring in patient name or case ID. Percent and underscore are ordinary characters, not wildcards. Empty search leaves other filters active. Search runs under RLS before pagination. The UI submits on Search/Enter, clears only the search on Clear, and resets pagination when the submitted term changes. No new database migration is needed. Substring-search performance on production volumes is not yet measured.
 
 Search integration checks cover Thai names, uppercase IDs, whitespace, literal special characters, invalid inputs, workflow filtering across pages and denial for unrelated users. Search UI verification remains pending API restart. Workflow filter UI was verified on the local six-case demo, including empty states and preserving selection after returning from details.

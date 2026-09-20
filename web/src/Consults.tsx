@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-type Case = { id: string; patient_name: string; patient_age: number; status: string; post_consult_option: string | null; refer_status: string | null; shared_care_status: string | null; created_at: string; consult_details?: string; patient_gender?: string; patient_scheme?: string };
+type Case = { id: string; patient_name: string; patient_age: number; status: string; post_consult_option: string | null; refer_status: string | null; shared_care_status: string | null; created_at: string; consult_details?: string; patient_gender?: string; patient_scheme?: string; sender_name?: string | null; target_hospital_name?: string | null; primary_consultant_name?: string | null };
 const labels: Record<string, string> = { pending: 'รอรับปรึกษา', active: 'กำลังปรึกษา', completed: 'จบการปรึกษา', refer: 'ส่งต่อ', shared_care: 'ดูแลร่วมกัน', planning: 'วางแผนส่งต่อ', referred_back: 'ส่งกลับแล้ว', in_progress: 'กำลังดำเนินการ' };
 const label = (value: string | null) => value ? labels[value] ?? value : '—';
 
@@ -50,6 +50,7 @@ export function Consults({ onExpired }: { onExpired: () => void }) {
     {selected && <button className="secondary" onClick={() => setSelected(null)}>← กลับรายการ</button>}
     {loading ? <p role="status">กำลังโหลดข้อมูล…</p> : error ? <p role="alert" className="error">{error}</p> : detail ? <article className="case-detail"><h2>{detail.patient_name}</h2>
       <dl><dt>รหัสเคส</dt><dd>{detail.id}</dd><dt>อายุ / เพศ</dt><dd>{detail.patient_age} ปี / {detail.patient_gender === 'male' ? 'ชาย' : detail.patient_gender === 'female' ? 'หญิง' : detail.patient_gender}</dd>
+        <dt>ทันตแพทย์ผู้ส่ง</dt><dd>{detail.sender_name ?? 'ไม่ระบุ'}</dd><dt>โรงพยาบาลปลายทาง</dt><dd>{detail.target_hospital_name ?? 'ไม่ระบุ'}</dd><dt>ผู้รับปรึกษาหลัก</dt><dd>{detail.primary_consultant_name ?? 'ยังไม่ระบุ'}</dd>
         <dt>สิทธิการรักษา</dt><dd>{detail.patient_scheme}</dd><dt>สถานะ</dt><dd>{label(detail.status)}</dd><dt>การดูแลต่อเนื่อง</dt><dd>{label(detail.post_consult_option)} · {label(detail.refer_status ?? detail.shared_care_status)}</dd>
         <dt>รายละเอียดการปรึกษา</dt><dd className="case-text">{detail.consult_details}</dd><dt>วันที่สร้าง</dt><dd>{new Date(detail.created_at).toLocaleString('th-TH')}</dd></dl>
       <p className="notice">ไฟล์แนบ แชท และการแก้ไขเคสยังไม่เปิดใช้งาน</p></article> : <>

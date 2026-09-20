@@ -44,6 +44,12 @@ try {
     for (const consult of consults) {
       const detail = await fetch(base + '/api/v1/consults/' + consult.id, { headers: { Cookie: cookie } });
       assert.equal(detail.status, expected ? 200 : 404, `${account.dentist_id}/${consult.id}`);
+      const body = await detail.json();
+      if (expected) {
+        assert.equal(body.item.sender_name, dentists.find(row => row.id === consult.sender_id)?.name ?? null);
+        assert.equal(body.item.target_hospital_name, hospitals.find(row => row.id === consult.target_hospital_id)?.name ?? null);
+        assert.equal(body.item.primary_consultant_name, dentists.find(row => row.id === consult.primary_consultant_id)?.name ?? null);
+      } else assert.deepEqual(body, { error: { code: 'NOT_FOUND' } });
       const dbRows = await withActorTransaction(pool, account.id, async client => (await client.query('SELECT id FROM app.consults WHERE id=$1', [consult.id])).rows);
       assert.equal(dbRows.length, expected ? 1 : 0);
       combinations++;
