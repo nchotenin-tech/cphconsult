@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json && tsc -p web/tsconfig.json && vite build web --outDir ../web-dist",
-    "test": "npm run build && node --test server/test/platform.test.mjs server/test/actor-transaction.test.mjs server/test/pool-denial.test.mjs server/test/auth.test.mjs server/test/startup.test.mjs server/test/clinical-fixtures.test.mjs",
+    "test": "npm run build && node --test server/test/platform.test.mjs server/test/actor-transaction.test.mjs server/test/pool-denial.test.mjs server/test/auth.test.mjs server/test/startup.test.mjs server/test/clinical-fixtures.test.mjs server/test/migration-preparation.test.mjs",
     "start": "node dist/main.js",
     "dev": "tsx server/src/main.ts"
   },

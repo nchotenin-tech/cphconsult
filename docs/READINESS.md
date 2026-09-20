@@ -37,6 +37,8 @@ PostgreSQL 18 is available locally. Authentication, transaction-scoped identity,
 
 ## Information needed
 
+Thai preparation guide and local checklist validator: [MIGRATION-PREPARATION-TH.md](MIGRATION-PREPARATION-TH.md). The blank template correctly reports 21 unknown items; these are unverified, not proof the user lacks them. Four validator tests cover missing/pending/invalid entries and the distinction between checklist completeness and migration authorization. The tool does not access production or perform migration.
+
 - Server OS/version, CPU/RAM/disk, Docker availability, domain and operating team.
 - Confirm whether React is retained or the frontend is also to be replaced.
 - Source project identity and actual deployed revision.
