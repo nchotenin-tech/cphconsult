@@ -96,6 +96,22 @@ try {
   }
   for (const item of consults) await admin.query('UPDATE app.consults SET post_consult_option=$1, refer_status=$2, shared_care_status=$3 WHERE id=$4', [item.post_consult_option,item.refer_status,item.shared_care_status,item.id]);
   const combined = await fetch(base + '/api/v1/consults?status=active&workflow=refer', { headers });
+  for (const [q, expected] of [['ผู้ป่วยจำลอง 1',[consults[0].id]],['  FIXTURE-CASE-ACTIVE  ',[consults[1].id]],['%',[]],['_',[]],["' OR true --",[]],['not-found',[]]]) {
+    const response = await fetch(base + '/api/v1/consults?q=' + encodeURIComponent(q), { headers });
+    assert.equal(response.status, 200);
+    assert.deepEqual((await response.json()).items.map(item => item.id), expected);
+  }
+  let searchAfter = '', searchIds = [];
+  do {
+    const response = await fetch(base + '/api/v1/consults?workflow=refer&q=fixture-case&limit=1&after=' + encodeURIComponent(searchAfter), { headers });
+    assert.equal(response.status, 200);
+    const page = await response.json(); searchIds.push(...page.items.map(item => item.id)); searchAfter = page.nextCursor;
+    assert.ok(searchIds.length <= 2);
+  } while (searchAfter);
+  assert.deepEqual(searchIds, consults.filter(item => item.post_consult_option === 'refer').map(item => item.id).sort());
+  const deniedSearch = await fetch(base + '/api/v1/consults?q=fixture-case', { headers: { Cookie: cookies[6] } });
+  assert.deepEqual(await deniedSearch.json(), { items: [], nextCursor: null });
+  for (const query of ['q=a&q=b','q=' + 'a'.repeat(201),'q=%00']) assert.equal((await fetch(base + '/api/v1/consults?' + query, { headers })).status, 422);
   assert.deepEqual(await combined.json(), { items: [], nextCursor: null });
   for (const query of ['workflow=bad','progress=active','workflow=refer&progress=bad','workflow=refer&workflow=shared_care','workflow=refer&progress=all&progress=active']) {
     assert.equal((await fetch(base + '/api/v1/consults?' + query, { headers })).status, 422);

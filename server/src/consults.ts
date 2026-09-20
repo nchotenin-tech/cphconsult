@@ -20,6 +20,10 @@ export function createConsultRouter(pool: Pool, auth: AuthStore) {
     const status = req.query.status ?? 'all';
     const workflow = req.query.workflow ?? 'all';
     const progress = req.query.progress ?? 'all';
+    const search = req.query.q ?? '';
+    if (typeof search !== 'string' || search.length > 200 || search.includes('\u0000')) {
+      res.status(422).json({ error: { code: 'INVALID_SEARCH' } }); return;
+    }
     if (typeof workflow !== 'string' || !['all', 'refer', 'shared_care'].includes(workflow)
       || typeof progress !== 'string' || !['all', 'active', 'finished', 'cancelled'].includes(progress)
       || (workflow === 'all' && progress !== 'all')) {
@@ -37,6 +41,7 @@ export function createConsultRouter(pool: Pool, auth: AuthStore) {
       return (await client.query(`SELECT id, patient_name, patient_age, status, post_consult_option,
         refer_status, shared_care_status, created_at FROM app.consults
         WHERE id > $1 AND ($3::text IS NULL OR status = $3)
+          AND ($6::text = '' OR strpos(lower(patient_name), lower($6)) > 0 OR strpos(lower(id), lower($6)) > 0)
           AND ($4::text = 'all' OR post_consult_option = $4)
           AND ($5::text = 'all'
             OR ($5 = 'active' AND CASE WHEN post_consult_option = 'shared_care'
@@ -46,7 +51,7 @@ export function createConsultRouter(pool: Pool, auth: AuthStore) {
               THEN shared_care_status = 'completed' ELSE refer_status = 'referred_back' END)
             OR ($5 = 'cancelled' AND CASE WHEN post_consult_option = 'shared_care'
               THEN shared_care_status = 'cancelled' ELSE refer_status = 'cancelled' END))
-        ORDER BY id LIMIT $2`, [after, limit + 1, status === 'all' ? null : status, workflow, progress])).rows;
+        ORDER BY id LIMIT $2`, [after, limit + 1, status === 'all' ? null : status, workflow, progress, search.trim()])).rows;
     });
     const more = rows.length > limit;
     const items = rows.slice(0, limit);

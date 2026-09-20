@@ -22,6 +22,10 @@ Only explicit summary/detail columns are returned. Attachment access, workflow J
 
 ## Validation
 
+The list accepts `q` (maximum 200 characters, no NUL or repeated parameter). It trims surrounding whitespace and matches a case-insensitive literal substring in patient name or case ID. Percent and underscore are ordinary characters, not wildcards. Empty search leaves other filters active. Search runs under RLS before pagination. The UI submits on Search/Enter, clears only the search on Clear, and resets pagination when the submitted term changes. No new database migration is needed. Substring-search performance on production volumes is not yet measured.
+
+Search integration checks cover Thai names, uppercase IDs, whitespace, literal special characters, invalid inputs, workflow filtering across pages and denial for unrelated users. Search UI verification remains pending API restart. Workflow filter UI was verified on the local six-case demo, including empty states and preserving selection after returning from details.
+
 Run `npm test`, then `./tools/test-auth-postgres.ps1` in PowerShell. The latter requires local PostgreSQL 18 binaries and unused port 55439. It creates and stops an isolated synthetic cluster under ignored `.local-tests/`; it does not connect to the user's port-5432 database. Temporary test clusters remain local after shutdown.
 
 Validated: 28 unit tests; authentication HTTP/PostgreSQL checks; 48 synthetic role/case pairs through both HTTP and the real runtime role; pagination; anonymous denial; missing/inaccessible detail; ignored actor spoof header; denied direct writes; no residual actor context; password-change and disabled-account rejection. Superuser is used only for setup and fixture changes, never the authorization queries under test. These tests do not prove production migration readiness or source-data completeness.

@@ -13,6 +13,10 @@ paths:
       description: RLS-scoped list ordered by text ID. No dentist mapping yields an empty list.
       parameters:
         - in: query
+          name: q
+          description: Trimmed literal substring of patient name or case ID, case-insensitive. Empty means no search. Combined with all filters before pagination. Reset after on changes.
+          schema: { type: string, maxLength: 200 }
+        - in: query
           name: workflow
           schema: { type: string, enum: [all, refer, shared_care], default: all }
         - in: query

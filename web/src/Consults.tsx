@@ -9,6 +9,8 @@ export function Consults({ onExpired }: { onExpired: () => void }) {
   const [status, setStatus] = useState('all');
   const [workflow, setWorkflow] = useState('all');
   const [progress, setProgress] = useState('all');
+  const [searchDraft, setSearchDraft] = useState('');
+  const [search, setSearch] = useState('');
   const [reload, setReload] = useState(0);
   const [rows, setRows] = useState<Case[]>([]);
   const [next, setNext] = useState<string | null>(null);
@@ -19,7 +21,7 @@ export function Consults({ onExpired }: { onExpired: () => void }) {
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true); setError(''); setDetail(null); setRows([]); setNext(null);
-    const path = selected ? '/' + encodeURIComponent(selected) : '?limit=20&after=' + encodeURIComponent(after) + '&status=' + encodeURIComponent(status) + '&workflow=' + workflow + '&progress=' + progress;
+    const path = selected ? '/' + encodeURIComponent(selected) : '?limit=20&after=' + encodeURIComponent(after) + '&status=' + encodeURIComponent(status) + '&workflow=' + workflow + '&progress=' + progress + '&q=' + encodeURIComponent(search);
     void fetch('/api/v1/consults' + path, { credentials: 'same-origin', signal: controller.signal }).then(async response => {
       if (controller.signal.aborted) return;
       if (response.status === 401) { onExpired(); return; }
@@ -30,11 +32,17 @@ export function Consults({ onExpired }: { onExpired: () => void }) {
     }).catch(error => { if (!controller.signal.aborted) setError(error instanceof Error ? error.message : 'เชื่อมต่อไม่ได้'); })
       .finally(() => { if (!controller.signal.aborted) setLoading(false); });
     return () => controller.abort();
-  }, [after, status, workflow, progress, selected, reload, onExpired]);
+  }, [after, status, workflow, progress, search, selected, reload, onExpired]);
   return <section className="clinical" aria-label="เคสปรึกษา">
     <div className="clinical-heading"><div><p className="eyebrow">CPH CONSULT · ระบบทดสอบ</p><h1>{selected ? 'รายละเอียดเคส' : 'รายการเคสปรึกษา'}</h1></div>
       <button className="secondary" onClick={() => setReload(value => value + 1)} disabled={loading}>โหลดใหม่</button></div>
     <p className="notice">แสดงเฉพาะเคสที่บัญชีของคุณมีสิทธิ์อ่าน · ขณะนี้เปิดดูข้อมูลได้เท่านั้น</p>
+    {!selected && <form role="search" onSubmit={event => { event.preventDefault(); setSearch(searchDraft.trim()); setAfter(''); setReload(value => value + 1); }}>
+      <label htmlFor="case-search">ค้นหาชื่อผู้ป่วยหรือรหัสเคส</label>
+      <input id="case-search" type="search" maxLength={200} autoComplete="off" value={searchDraft} onChange={event => setSearchDraft(event.target.value)} placeholder="เช่น ผู้ป่วยจำลอง 1 หรือ fixture-case-pending"/>
+      <div className="case-search-actions"><button className="secondary" type="submit">ค้นหา</button><button className="secondary" type="button" onClick={() => { setSearchDraft(''); setSearch(''); setAfter(''); }}>ล้างคำค้น</button></div>
+      {search && <p className="notice" role="status">ผลค้นหาสำหรับ “{search}” ตามตัวกรองที่เลือก</p>}
+    </form>}
     {!selected && <div className="case-filters" role="group" aria-label="กรองสถานะการปรึกษา">{['all', 'pending', 'active', 'completed'].map(value => <button key={value} className="secondary" aria-pressed={status === value} onClick={() => { setStatus(value); setAfter(''); }}>{value === 'all' ? 'ทั้งหมด' : label(value)}</button>)}</div>}
     {!selected && <p className="notice">สถานะนี้แสดงการปรึกษา เคสที่จบการปรึกษาอาจยังอยู่ระหว่างส่งต่อหรือดูแลร่วมกัน</p>}
     {!selected && <div className="case-filters" role="group" aria-label="กรองการดูแลต่อเนื่อง">{[['all','ทุกประเภท'],['refer','ส่งต่อ'],['shared_care','ดูแลร่วมกัน']].map(([value,text]) => <button key={value} className="secondary" aria-pressed={workflow === value} onClick={() => { setWorkflow(value); setProgress('all'); setAfter(''); }}>{text}</button>)}</div>}
