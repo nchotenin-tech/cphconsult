@@ -8,7 +8,7 @@ Phase 0 review continues; an initial Express/TypeScript platform slice now serve
 Initial login/me/logout API and real PostgreSQL authentication tests are implemented; see `docs/AUTH.md`. A React login page and local synthetic-account provisioning tool are available; see `docs/LOGIN-UI.md`. Production account activation remains pending.
 Provisional stack from the handoff: React/Vite, Express/TypeScript, PostgreSQL, Socket.IO.
 Frontend redesign and server specifications remain to be confirmed.
-An initial clinical list/detail API with PostgreSQL row-level read policies is implemented and tested with synthetic fixtures. See `docs/CLINICAL-READ.md` for the local schema installation and scope; the clinical UI and full migration remain pending.
+An initial clinical list/detail API with PostgreSQL row-level read policies is implemented and tested with synthetic fixtures. See `docs/CLINICAL-READ.md` for the schema and `docs/CLINICAL-DEMO.md` for the read-only clinical UI and optional local synthetic demo. Full migration remains pending.
 
 ## Migration agreement
 

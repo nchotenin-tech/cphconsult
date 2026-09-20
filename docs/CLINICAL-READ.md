@@ -1,6 +1,6 @@
 # Initial clinical read API
 
-This is a development read slice, not the complete legacy schema or a production import tool. No clinical UI or clinical write endpoints are included.
+This is a development read slice, not the complete legacy schema or a production import tool. A read-only UI and optional local demo are described in `CLINICAL-DEMO.md`. No clinical write endpoints are included.
 
 ## Install locally
 

@@ -19,6 +19,8 @@ try {
         & "$pgBin\psql.exe" -X -h 127.0.0.1 -p 55439 -U postgres -d cphconsult_dev -v ON_ERROR_STOP=1 -f (Join-Path $projectRoot "ops\postgres\$migration")
         if ($LASTEXITCODE -ne 0) { throw "Test migration failed: $migration" }
     }
+    & node server/test/clinical-demo-postgres.mjs
+    if ($LASTEXITCODE -ne 0) { throw 'Clinical demo installation checks failed' }
     & node server/test/auth-postgres.mjs
     if ($LASTEXITCODE -ne 0) { throw 'PostgreSQL HTTP integration failed' }
     & node server/test/clinical-postgres.mjs

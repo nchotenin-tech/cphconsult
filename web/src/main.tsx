@@ -1,4 +1,5 @@
-import React, { useEffect, useState, type FormEvent } from 'react';
+import React, { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { Consults } from './Consults';
 import { createRoot } from 'react-dom/client';
 import './style.css';
 
@@ -10,6 +11,7 @@ function App() {
   const [error, setError] = useState('');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const expired = useCallback(() => { setSession(null); setPassword(''); setError('หมดเวลาเข้าสู่ระบบ กรุณาเข้าสู่ระบบอีกครั้ง'); }, []);
   useEffect(() => {
     let live = true;
     fetch('/api/v1/auth/me', { credentials: 'same-origin' }).then(async response => {
@@ -42,6 +44,7 @@ function App() {
     } catch { setError('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ยังยืนยันการออกจากระบบไม่ได้'); }
     finally { setBusy(false); }
   }
+  if (session && !session.user.mustChangePassword) return <main className="workspace"><header className="workspace-header"><strong>CPH Consult</strong><span>{session.user.login}</span><button className="secondary" disabled={busy} onClick={signOut}>ออกจากระบบ</button></header>{error && <p role="alert" className="error">{error}</p>}<Consults onExpired={expired}/><footer>สภาพแวดล้อมทดสอบ · ใช้ข้อมูลจำลองเท่านั้น</footer></main>;
   return <main className="layout">
     <section className="intro"><div className="brand"><span className="mark" aria-hidden="true">+</span> CPH Consult</div>
       <div className="intro-copy"><p className="eyebrow">เครือข่ายปรึกษาทางทันตกรรม</p><h1>เชื่อมต่อทีมดูแล<br/>เพื่อการรักษาที่ต่อเนื่อง</h1><p>พื้นที่ทำงานร่วมกันสำหรับการปรึกษา<br/>ส่งต่อ และติดตามการดูแลผู้ป่วย</p></div>
