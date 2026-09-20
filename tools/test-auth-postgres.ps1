@@ -15,12 +15,14 @@ try {
     $started = $true
     & "$pgBin\createdb.exe" -h 127.0.0.1 -p 55439 -U postgres cphconsult_dev
     if ($LASTEXITCODE -ne 0) { throw 'Test database creation failed' }
-    foreach ($migration in @('01-development-foundation.sql','03-identity-schema.sql','05-auth-functions.sql')) {
+    foreach ($migration in @('01-development-foundation.sql','03-identity-schema.sql','05-auth-functions.sql','06-clinical-read-schema.sql')) {
         & "$pgBin\psql.exe" -X -h 127.0.0.1 -p 55439 -U postgres -d cphconsult_dev -v ON_ERROR_STOP=1 -f (Join-Path $projectRoot "ops\postgres\$migration")
         if ($LASTEXITCODE -ne 0) { throw "Test migration failed: $migration" }
     }
     & node server/test/auth-postgres.mjs
     if ($LASTEXITCODE -ne 0) { throw 'PostgreSQL HTTP integration failed' }
+    & node server/test/clinical-postgres.mjs
+    if ($LASTEXITCODE -ne 0) { throw 'Clinical PostgreSQL HTTP integration failed' }
 }
 finally {
     if ($started) { & "$pgBin\pg_ctl.exe" -D $clusterPath -m fast -w stop }

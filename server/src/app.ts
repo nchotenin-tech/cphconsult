@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 export type DatabaseProbe = () => Promise<boolean>;
 
-export function createApp(probe: DatabaseProbe, authRouter?: Router) {
+export function createApp(probe: DatabaseProbe, authRouter?: Router, consultRouter?: Router) {
   const app = express();
   app.disable('x-powered-by');
   app.use((_req, res, next) => {
@@ -28,6 +28,7 @@ export function createApp(probe: DatabaseProbe, authRouter?: Router) {
     res.status(503).json({ status: 'not_ready', reason: 'application_not_implemented' });
   });
   if (authRouter) app.use('/api/v1/auth', authRouter);
+  if (consultRouter) app.use('/api/v1/consults', consultRouter);
   app.use(express.static(fileURLToPath(new URL('../web-dist/', import.meta.url)), { dotfiles: 'deny' }));
   app.use((_req, res) => { res.status(404).json({ error: { code: 'NOT_FOUND' } }); });
   const errorHandler: ErrorRequestHandler = (_error, _req, res, _next) => {

@@ -1,11 +1,63 @@
 openapi: 3.1.0
 info:
-  title: CPH Consult platform and authentication
+  title: CPH Consult development API
   version: 0.1.0
-  description: Platform and initial authentication endpoints. Clinical API contracts remain pending.
+  description: Platform, initial authentication and clinical read slice. Full clinical workflows remain pending.
 servers:
   - url: http://127.0.0.1:3100
 paths:
+  /api/v1/consults:
+    get:
+      operationId: listConsults
+      security: [{ sessionCookie: [] }]
+      description: RLS-scoped list ordered by text ID. No dentist mapping yields an empty list.
+      parameters:
+        - in: query
+          name: limit
+          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+        - in: query
+          name: after
+          schema: { type: string, maxLength: 200 }
+      responses:
+        '200':
+          description: Accessible cases only.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, nextCursor]
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: '#/components/schemas/ConsultSummary' }
+                  nextCursor: { type: [string, 'null'] }
+        '401': { description: No active session. }
+        '403': { description: Password change required. }
+        '422': { description: Invalid pagination. }
+        '500': { description: Internal failure; details omitted. }
+  /api/v1/consults/{id}:
+    get:
+      operationId: getConsult
+      security: [{ sessionCookie: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, maxLength: 200 }
+      responses:
+        '200':
+          description: Accessible case; workflow JSON and attachments are not returned.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [item]
+                properties:
+                  item: { $ref: '#/components/schemas/ConsultDetail' }
+        '401': { description: No active session. }
+        '403': { description: Password change required. }
+        '404': { description: Missing or inaccessible case. }
+        '500': { description: Internal failure; details omitted. }
   /api/v1/auth/login:
     post:
       operationId: login
@@ -120,6 +172,32 @@ components:
       in: cookie
       name: cph_session
   schemas:
+    ConsultSummary:
+      type: object
+      required: [id, patient_name, patient_age, status, post_consult_option, refer_status, shared_care_status, created_at]
+      properties:
+        id: { type: string }
+        patient_name: { type: string }
+        patient_age: { type: integer }
+        status: { type: string }
+        post_consult_option: { type: [string, 'null'] }
+        refer_status: { type: [string, 'null'] }
+        shared_care_status: { type: [string, 'null'] }
+        created_at: { type: string, format: date-time }
+    ConsultDetail:
+      allOf:
+        - $ref: '#/components/schemas/ConsultSummary'
+        - type: object
+          required: [patient_gender, patient_scheme, consult_details, sender_id, target_hospital_id, target_specialties, target_dentist_ids, primary_consultant_id]
+          properties:
+            patient_gender: { type: string }
+            patient_scheme: { type: string }
+            consult_details: { type: string }
+            sender_id: { type: [string, 'null'] }
+            target_hospital_id: { type: [string, 'null'] }
+            target_specialties: { type: array, items: { type: string } }
+            target_dentist_ids: { type: array, items: { type: string } }
+            primary_consultant_id: { type: [string, 'null'] }
     SessionResponse:
       type: object
       required: [user, csrfToken]

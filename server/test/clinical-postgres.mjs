@@ -1,0 +1,73 @@
+import assert from 'node:assert/strict';
+import { once } from 'node:events';
+import pg from 'pg';
+import { createApp } from '../../dist/app.js';
+import { createAuthRouter, hashPassword } from '../../dist/auth.js';
+import { PostgresAuthStore } from '../../dist/auth-store.js';
+import { createConsultRouter } from '../../dist/consults.js';
+import { withActorTransaction } from '../../dist/actor-transaction.js';
+import { hospitals, dentists, accounts, consults, invitations, expectedReaders } from './fixtures/clinical.mjs';
+
+const options = { host: '127.0.0.1', port: 55439, database: 'cphconsult_dev' };
+const admin = new pg.Client({ ...options, user: 'postgres' });
+const pool = new pg.Pool({ ...options, user: 'cphconsult_dev_runtime', max: 1 });
+let server;
+try {
+  await admin.connect();
+  const password = 'Synthetic-clinical-test-password-only!';
+  const hash = await hashPassword(password);
+  await admin.query('BEGIN');
+  // Table/column identifiers come exclusively from these versioned synthetic fixtures.
+  for (const [table, rows] of [['hospitals', hospitals], ['dentists', dentists], ['app_users', accounts.map(row => ({ ...row, must_change_password: false }))], ['consults', consults], ['consult_invitations', invitations]]) {
+    for (const row of rows) {
+      const columns = Object.keys(row);
+      const values = columns.map(key => ['refer_data', 'shared_care_data', 'attachments'].includes(key) ? JSON.stringify(row[key]) : row[key]);
+      await admin.query(`INSERT INTO app.${table} (${columns.join(',')}) VALUES (${columns.map((_, index) => '$' + (index + 1)).join(',')})`, values);
+    }
+  }
+  for (const account of accounts) await admin.query('INSERT INTO app.auth_credentials(user_id,password_hash) VALUES ($1,$2)', [account.id, hash]);
+  await admin.query('COMMIT');
+  const auth = new PostgresAuthStore(pool);
+  server = createApp(async () => true, await createAuthRouter(auth, 'http://127.0.0.1:3100'), createConsultRouter(pool, auth)).listen(0, '127.0.0.1');
+  await once(server, 'listening');
+  const base = `http://127.0.0.1:${server.address().port}`;
+  assert.equal((await fetch(base + '/api/v1/consults')).status, 401);
+  const cookies = [];
+  let combinations = 0;
+  for (const account of accounts) {
+    const login = await fetch(base + '/api/v1/auth/login', { method: 'POST', headers: { Origin: 'http://127.0.0.1:3100', 'Content-Type': 'application/json' }, body: JSON.stringify({ login: account.login, password }) });
+    assert.equal(login.status, 200);
+    const cookie = login.headers.get('set-cookie').split(';')[0]; cookies.push(cookie);
+    const expected = expectedReaders.includes(account.dentist_id);
+    const list = await fetch(base + '/api/v1/consults', { headers: { Cookie: cookie } }); assert.equal(list.status, 200);
+    assert.equal((await list.json()).items.length, expected ? consults.length : 0);
+    for (const consult of consults) {
+      const detail = await fetch(base + '/api/v1/consults/' + consult.id, { headers: { Cookie: cookie } });
+      assert.equal(detail.status, expected ? 200 : 404, `${account.dentist_id}/${consult.id}`);
+      const dbRows = await withActorTransaction(pool, account.id, async client => (await client.query('SELECT id FROM app.consults WHERE id=$1', [consult.id])).rows);
+      assert.equal(dbRows.length, expected ? 1 : 0);
+      combinations++;
+    }
+  }
+  const headers = { Cookie: cookies[0] };
+  let cursor = '', seen = [];
+  do {
+    const response = await fetch(base + '/api/v1/consults?limit=2&after=' + encodeURIComponent(cursor), { headers });
+    assert.equal(response.status, 200);
+    const page = await response.json(); seen.push(...page.items.map(row => row.id)); cursor = page.nextCursor;
+  } while (cursor);
+  assert.deepEqual(seen, consults.map(row => row.id).sort());
+  assert.equal((await fetch(base + '/api/v1/consults?limit=101', { headers })).status, 422);
+  assert.equal((await fetch(base + '/api/v1/consults/missing-case', { headers })).status, 404);
+  assert.equal((await fetch(base + '/api/v1/consults/' + consults[0].id, { headers: { Cookie: cookies[6], 'X-User-Id': accounts[7].id } })).status, 404);
+  assert.equal((await pool.query('SELECT id FROM app.consults')).rowCount, 0);
+  await assert.rejects(pool.query("UPDATE app.consults SET status='active' WHERE false"), error => error.code === '42501');
+  await admin.query('UPDATE app.app_users SET must_change_password=true WHERE id=$1', [accounts[0].id]);
+  assert.equal((await fetch(base + '/api/v1/consults', { headers })).status, 403);
+  await admin.query("UPDATE app.app_users SET status='disabled' WHERE id=$1", [accounts[1].id]);
+  assert.equal((await fetch(base + '/api/v1/consults', { headers: { Cookie: cookies[1] } })).status, 401);
+  console.log(`clinical_postgres_http_checks_passed: ${combinations} role-case pairs plus pagination and negative checks`);
+} finally {
+  if (server) await new Promise(resolve => { server.close(resolve); server.closeAllConnections(); });
+  await pool.end(); await admin.end();
+}

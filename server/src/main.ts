@@ -8,7 +8,7 @@ try {
   const config = readConfig(process.env);
   const database = createDatabase(config.databaseUrl);
   const auth = database.authStore ? await createAuthRouter(database.authStore, config.origin) : undefined;
-  const server = createServer(createApp(database.probe, auth));
+  const server = createServer(createApp(database.probe, auth, database.consultRouter));
   server.once('listening', () => {
     console.log('api_listening');
   });

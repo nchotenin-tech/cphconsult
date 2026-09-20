@@ -8,7 +8,7 @@ export const hashToken = (token: string) => createHash('sha256').update(token).d
 export const csrfFor = (token: string) => createHmac('sha256', token).update('cphconsult-csrf-v1').digest('base64url');
 export const hashPassword = (password: string) => argon2.hash(password, { type: argon2.argon2id, memoryCost: 65536, timeCost: 3, parallelism: 1 });
 const cookieName = 'cph_session';
-function tokenFrom(req: Request) {
+export function tokenFrom(req: Request) {
   const matches = (req.headers.cookie ?? '').split(';').map(value => value.trim()).filter(value => value.startsWith(cookieName + '='));
   if (matches.length !== 1) return undefined;
   const token = matches[0].slice(cookieName.length + 1);

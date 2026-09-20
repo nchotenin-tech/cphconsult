@@ -1,5 +1,6 @@
 import pg from 'pg';
 import { PostgresAuthStore } from './auth-store.js';
+import { createConsultRouter } from './consults.js';
 
 // This checks connectivity and obvious excessive privilege, not complete RLS safety.
 export function createDatabase(databaseUrl: string | undefined) {
@@ -11,6 +12,7 @@ export function createDatabase(databaseUrl: string | undefined) {
   pool?.on('error', () => { console.error('database_connection_error'); });
   return {
     authStore: pool ? new PostgresAuthStore(pool) : undefined,
+    consultRouter: pool ? createConsultRouter(pool, new PostgresAuthStore(pool)) : undefined,
     async probe(): Promise<boolean> {
       if (!pool) return false;
       const result = await pool.query<{ permitted: boolean }>(`
