@@ -75,6 +75,31 @@ try {
     assert.equal((await fetch(base + '/api/v1/consults?' + query, { headers })).status, 422);
   }
   assert.equal((await fetch(base + '/api/v1/consults?limit=101', { headers })).status, 422);
+  // Cover terminal, cancelled, null and unknown states, not just the six demo defaults.
+  for (const workflow of ['refer', 'shared_care']) {
+    const states = workflow === 'refer' ? ['planning','appointment_confirmed','referred_back','cancelled',null,'unknown'] : ['in_progress','waiting','completed','cancelled',null,'unknown'];
+    for (let i = 0; i < consults.length; i++) {
+      await admin.query('UPDATE app.consults SET post_consult_option=$1, refer_status=$2, shared_care_status=$3 WHERE id=$4', [workflow, workflow === 'refer' ? states[i] : null, workflow === 'shared_care' ? states[i] : null, consults[i].id]);
+    }
+    for (const [progress, indexes] of [['all',[0,1,2,3,4,5]],['active',[0,1,4,5]],['finished',[2]],['cancelled',[3]]]) {
+      let after = '', found = [];
+      do {
+        const response = await fetch(base + `/api/v1/consults?workflow=${workflow}&progress=${progress}&limit=1&after=${encodeURIComponent(after)}`, { headers });
+        assert.equal(response.status, 200);
+        const page = await response.json(); found.push(...page.items.map(item => item.id)); after = page.nextCursor;
+        assert.ok(found.length <= 6);
+      } while (after);
+      assert.deepEqual(found, indexes.map(i => consults[i].id).sort());
+      const denied = await fetch(base + `/api/v1/consults?workflow=${workflow}&progress=${progress}`, { headers: { Cookie: cookies[6] } });
+      assert.deepEqual(await denied.json(), { items: [], nextCursor: null });
+    }
+  }
+  for (const item of consults) await admin.query('UPDATE app.consults SET post_consult_option=$1, refer_status=$2, shared_care_status=$3 WHERE id=$4', [item.post_consult_option,item.refer_status,item.shared_care_status,item.id]);
+  const combined = await fetch(base + '/api/v1/consults?status=active&workflow=refer', { headers });
+  assert.deepEqual(await combined.json(), { items: [], nextCursor: null });
+  for (const query of ['workflow=bad','progress=active','workflow=refer&progress=bad','workflow=refer&workflow=shared_care','workflow=refer&progress=all&progress=active']) {
+    assert.equal((await fetch(base + '/api/v1/consults?' + query, { headers })).status, 422);
+  }
   assert.equal((await fetch(base + '/api/v1/consults/missing-case', { headers })).status, 404);
   assert.equal((await fetch(base + '/api/v1/consults/' + consults[0].id, { headers: { Cookie: cookies[6], 'X-User-Id': accounts[7].id } })).status, 404);
   assert.equal((await pool.query('SELECT id FROM app.consults')).rowCount, 0);

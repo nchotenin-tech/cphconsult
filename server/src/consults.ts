@@ -18,6 +18,13 @@ export function createConsultRouter(pool: Pool, auth: AuthStore) {
     const limitText = req.query.limit ?? '20';
     const after = req.query.after ?? '';
     const status = req.query.status ?? 'all';
+    const workflow = req.query.workflow ?? 'all';
+    const progress = req.query.progress ?? 'all';
+    if (typeof workflow !== 'string' || !['all', 'refer', 'shared_care'].includes(workflow)
+      || typeof progress !== 'string' || !['all', 'active', 'finished', 'cancelled'].includes(progress)
+      || (workflow === 'all' && progress !== 'all')) {
+      res.status(422).json({ error: { code: 'INVALID_WORKFLOW_FILTER' } }); return;
+    }
     if (typeof status !== 'string' || !['all', 'pending', 'active', 'completed'].includes(status)) {
       res.status(422).json({ error: { code: 'INVALID_STATUS_FILTER' } }); return;
     }
@@ -29,7 +36,17 @@ export function createConsultRouter(pool: Pool, auth: AuthStore) {
     const rows = await withActorTransaction(pool, res.locals.actorId, async client => {
       return (await client.query(`SELECT id, patient_name, patient_age, status, post_consult_option,
         refer_status, shared_care_status, created_at FROM app.consults
-        WHERE id > $1 AND ($3::text IS NULL OR status = $3) ORDER BY id LIMIT $2`, [after, limit + 1, status === 'all' ? null : status])).rows;
+        WHERE id > $1 AND ($3::text IS NULL OR status = $3)
+          AND ($4::text = 'all' OR post_consult_option = $4)
+          AND ($5::text = 'all'
+            OR ($5 = 'active' AND CASE WHEN post_consult_option = 'shared_care'
+              THEN coalesce(shared_care_status, '') NOT IN ('completed','cancelled')
+              ELSE coalesce(refer_status, '') NOT IN ('referred_back','cancelled') END)
+            OR ($5 = 'finished' AND CASE WHEN post_consult_option = 'shared_care'
+              THEN shared_care_status = 'completed' ELSE refer_status = 'referred_back' END)
+            OR ($5 = 'cancelled' AND CASE WHEN post_consult_option = 'shared_care'
+              THEN shared_care_status = 'cancelled' ELSE refer_status = 'cancelled' END))
+        ORDER BY id LIMIT $2`, [after, limit + 1, status === 'all' ? null : status, workflow, progress])).rows;
     });
     const more = rows.length > limit;
     const items = rows.slice(0, limit);

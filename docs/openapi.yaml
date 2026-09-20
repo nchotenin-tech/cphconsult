@@ -13,6 +13,13 @@ paths:
       description: RLS-scoped list ordered by text ID. No dentist mapping yields an empty list.
       parameters:
         - in: query
+          name: workflow
+          schema: { type: string, enum: [all, refer, shared_care], default: all }
+        - in: query
+          name: progress
+          description: Requires a specific workflow unless all. Finished excludes cancelled. Active includes null or unknown nonterminal states, matching legacy tracking classification. Combined with status using AND.
+          schema: { type: string, enum: [all, active, finished, cancelled], default: all }
+        - in: query
           name: status
           description: Consultation status only; completed may still have ongoing Refer or Shared Care. Reset after when changing filter.
           schema: { type: string, enum: [all, pending, active, completed], default: all }
